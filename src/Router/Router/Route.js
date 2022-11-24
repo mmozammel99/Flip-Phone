@@ -1,4 +1,5 @@
-import AllUser from "../../Pages/Admin/AllUser/AllUser";
+import AllSeller from "../../Pages/Admin/AllSeller/AllSeller";
+import AllBuyers from "../../Pages/Admin/AllBuyers/AllBuyers";
 import Login from "../../Pages/Login/Login";
 import Signup from "../../Signup/Signup";
 import AdminRoute from "../AdminRout/AdminRout";
@@ -25,8 +26,12 @@ const router = createBrowserRouter([
                 element: <Signup></Signup>
             },
             {
-                path: '/allUsers',
-                element: <AdminRoute><AllUser></AllUser></AdminRoute>
+                path: '/allseller',
+                element: <AdminRoute><AllSeller></AllSeller></AdminRoute>
+            },
+            {
+                path: '/allbuyers',
+                element: <AdminRoute><AllBuyers></AllBuyers></AdminRoute>
             },
         ]
     }

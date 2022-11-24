@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../Assets/logo.png';
 import { AuthContext } from '../../AuthCoxtext/AuthProvider';
-import { GoVerified } from "react-icons/go";
 import useAdmin from '../../Hooks/useAdmin';
 import useSeller from '../../Hooks/useSeller';
 
@@ -36,8 +35,8 @@ const Header = () => {
         {
           user?.uid &&  isAdmin &&
             <>
-                <li><Link to='/allUsers'>All User</Link></li>
-                <li><Link>All Sellers</Link></li>
+                <li><Link to='/allseller'>All Sellers</Link></li>
+                <li><Link to='/allbuyers'>All Buyers</Link></li>
                 <li><Link>Reported Items</Link></li>
             </>
         }
@@ -68,7 +67,7 @@ const Header = () => {
                                 <div className="dropdown dropdown-end">
                                     <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                                         <div className="w-10 rounded-full ">
-                                            <span className="absolute bottom-0 right-0   bg-gray-50 border rounded-full text-secondary"><GoVerified className='text-lg' /></span>
+                                        <span className="absolute bottom-0 right-0 w-4 h-4 bg-green-600 border rounded-full text-gray-800 border-gray-50"></span>
                                             <img src={user?.photoURL} alt='' />
                                         </div>
                                     </label>

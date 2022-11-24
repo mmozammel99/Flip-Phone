@@ -1,58 +1,26 @@
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { FaApple, FaGoogle } from "react-icons/fa";
-import { SiSamsung, SiOneplus } from "react-icons/si";
+import React, { useEffect, useState } from 'react';
+import axios from "axios";
 import CategoriesCard from './CategoriesCard';
 const HomeProductCategories = () => {
-    const { data: categories = [] } = useQuery({
-        queryKey: ['categories'],
-        queryFn: async () => {
-            const res = await fetch('http://localhost:5000/categories')
-            const data = await res.json()
-            return data
-        }
-    })
-    console.log(categories);
+    const [categories, setCategories] = useState([])
+ 
+    useEffect(() => {
+
+        axios
+            .get("http://localhost:5000/categories")
+            .then(data => setCategories(data.data))
+            .catch(error => console.log(error));
+    }, [])
+
     return (
         <div className='grid gap-10 m-10 grid-cols-1 md:grid-cols-2 text-center'>
             {
                 categories.map(c => <CategoriesCard
-                key={c._id}
-                category={c}
+                    key={c._id}
+                    category={c}
                 ></CategoriesCard>)
             }
-            {/* <div className="card  bg-neutral text-primary-content">
-                <div className="card-body  text-canter text-secondary-content">
-                    <h2 className=" text-7xl mx-auto my-7"><FaApple></FaApple></h2>
-                    <pc className='text-5xl font-medium'>Appel</pc>
-                    <div className="card-actions justify-end">
-                    </div>
-                </div>
-            </div>
-            <div className="card  bg-secondary text-primary-content">
-                <div className="card-body  text-canter text-secondary-content">
-                    <h2 className="text-9xl mx-auto"><SiSamsung></SiSamsung></h2>
-                    <pc className='text-5xl font-medium '>Samsung</pc>
-                    <div className="card-actions justify-end">
-                    </div>
-                </div>
-            </div>
-            <div className="card bg-accent text-primary-content">
-                <div className="card-body  text-canter text-secondary-content">
-                    <h2 className=" text-7xl mx-auto my-7"><FaGoogle></FaGoogle></h2>
-                    <pc className='text-5xl font-medium'>Google</pc>
-                    <div className="card-actions justify-end">
-                    </div>
-                </div>
-            </div>
-            <div className="card bg-primary text-primary-content">
-                <div className="card-body  text-canter text-secondary-content">
-                    <h2 className=" text-7xl mx-auto my-7"><SiOneplus></SiOneplus></h2>
-                    <pc className='text-5xl font-medium'>Oneplus</pc>
-                    <div className="card-actions justify-end">
-                    </div>
-                </div>
-            </div> */}
+           
         </div>
     );
 };
