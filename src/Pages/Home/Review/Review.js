@@ -4,7 +4,7 @@ const Review = () => {
     return (
         <div className="carousel w-full my-10">
             <div id="slide6" className="carousel-item relative w-full gap-5">
-                <div className='grid grid-cols-1 lg:grid-cols-2 lg:gap-44 justify-items-center'>
+                <div className='grid grid-cols-1 lg:grid-cols-2 lg:gap-44 justify-items-center mx-auto'>
                     <div className="container flex flex-col w-full max-w-lg p-6 mx-auto divide-y rounded-md divide-gray-300 bg-gray-50 text-gray-800">
                         <div className="flex justify-between p-4">
                             <div className="flex space-x-4">

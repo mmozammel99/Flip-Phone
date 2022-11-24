@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
-const Login = () => {
+const Signup = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
 
     const onSubmit = data => {
@@ -13,7 +13,16 @@ const Login = () => {
             <h1 className="text-2xl font-bold text-center">Login</h1>
             <form onSubmit={handleSubmit(onSubmit)} action="" className="space-y-6 ng-untouched ng-pristine ng-valid">
                 <div className="space-y-1 text-sm">
-                    <label name="email" className="block text-gray-600"  >Email</label>
+                    <label name="name" className="block text-gray-600" >Name</label>
+                    <input type="text"
+                        className="w-full px-4 py-3 rounded-md border-gray-300  text-gray-800 focus:border-green-600"
+                        {...register("name",
+                            { required: "name Address is required" }
+                        )} placeholder="Name" />
+                    {errors.name && <p role="alert">{errors.name?.message}</p>}
+                </div>
+                <div className="space-y-1 text-sm">
+                    <label name="email" className="block text-gray-600" >Email</label>
                     <input type="email"
                         className="w-full px-4 py-3 rounded-md border-gray-300  text-gray-800 focus:border-green-600"
                         {...register("email",
@@ -21,6 +30,16 @@ const Login = () => {
                         )} placeholder="Email" />
                     {errors.email && <p role="alert">{errors.email?.message}</p>}
                 </div>
+                <div className="space-y-1 text-sm">
+                    <label name="avatar" className="block text-gray-600" >Avatar</label>
+                    <input type="file"
+                        className="file-input file-input-bordered w-full border-gray-300  text-gray-800 focus:border-green-600"
+                        {...register("avatar",
+                            { required: "avatar Address is required" }
+                        )} placeholder="Avatar" />
+                    {errors.avatar && <p role="alert">{errors.avatar?.message}</p>}
+                </div>
+
                 <div className="space-y-1 text-sm">
                     <label name="password" className="block text-gray-600">Password</label>
                     <input type="password" className="w-full px-4 py-3 rounded-md border-gray-300  text-gray-800 focus:border-green-600"
@@ -30,9 +49,14 @@ const Login = () => {
                         }
 
                         )} placeholder="password" />
-                    <div className="flex justify-end text-xs text-gray-600">
-                        <Link >Forgot Password?</Link>
-                    </div>
+
+                </div>
+                <div className='w-full mx-auto'>
+                    <label for="Toggle3" className="inline-flex items-center p-2 rounded-md cursor-pointer text-gray-100 ">
+                        <input id="Toggle3" type="checkbox" className="hidden peer" />
+                        <span className="px-4 py-2 rounded-l-md bg-green-600 peer-checked:bg-gray-700">Monthly</span>
+                        <span className="px-4 py-2 rounded-r-md bg-gray-700 peer-checked:bg-green-600">Annually</span>
+                    </label>
                 </div>
                 <button className="block w-full p-3 text-center rounded-sm text-gray-50 bg-primary">Sign in</button>
             </form>
@@ -56,4 +80,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Signup;
