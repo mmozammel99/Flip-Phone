@@ -2,6 +2,7 @@ import React from 'react';
 import { FaApple,FaGoogle } from "react-icons/fa";
 import { SiSamsung ,SiOneplus} from "react-icons/si";
 const HomeProductCategories = () => {
+    
     return (
         <div className='grid gap-10 m-10 grid-cols-1 md:grid-cols-2 text-center'>
             <div className="card  bg-neutral text-primary-content">

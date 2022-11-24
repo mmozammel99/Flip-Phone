@@ -1,23 +1,46 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../Assets/logo.png';
+import { AuthContext } from '../../AuthCoxtext/AuthProvider';
+import { GoVerified } from "react-icons/go";
+import useAdmin from '../../Hooks/useAdmin';
+import useSeller from '../../Hooks/useSeller';
 
 const Header = () => {
+    const { user, logOut } = useContext(AuthContext)
+    const [isAdmin] = useAdmin(user?.email)
+    const [isSeller] = useSeller(user?.email)
+
+    const handleLogOut = () => {
+        logOut()
+            .then(() => { })
+            .catch(() => { })
+    }
     const menuItems = <>
         <li><Link to='/'>Home</Link></li>
         <li><Link>Blog</Link></li>
-
-        <li><Link>My Order</Link></li>
-        <li><Link>My wish</Link></li>
-
-        <li><Link>Add Product</Link></li>
-        <li><Link>My Product</Link></li>
-        <li><Link>My Buyers</Link></li>
-
-        <li><Link>All Sellers</Link></li>
-        <li><Link>All Buyers</Link></li>
-        <li><Link>Reported Items</Link></li>
-
+        {user?.uid && !isSeller && !isAdmin &&
+            <>
+                <li><Link>My Order</Link></li>
+                <li><Link>My wish</Link></li>
+            </>
+        }
+        {
+          user?.uid && isSeller &&
+            <>
+                <li><Link>Add Product</Link></li>
+                <li><Link>My Product</Link></li>
+                <li><Link>My Buyers</Link></li>
+            </>
+        }
+        {
+          user?.uid &&  isAdmin &&
+            <>
+                <li><Link>All Sellers</Link></li>
+                <li><Link>All Buyers</Link></li>
+                <li><Link>Reported Items</Link></li>
+            </>
+        }
     </>
     return (
         <div className=''>
@@ -31,7 +54,7 @@ const Header = () => {
                             {menuItems}
                         </ul>
                     </div>
-                    <Link className="btn btn-ghost" to='/'><img src={logo} alt="" className='w-52'/></Link>
+                    <Link className="btn btn-ghost" to='/'><img src={logo} alt="" className='w-52' /></Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal p-0">
@@ -39,7 +62,24 @@ const Header = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <Link className="btn btn-primary text-gray-50" to='/login'>Login</Link>
+                    {
+                        user?.uid ?
+                            <>
+                                <div className="dropdown dropdown-end">
+                                    <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                                        <div className="w-10 rounded-full ">
+                                            <span className="absolute bottom-0 right-0   bg-gray-50 border rounded-full text-secondary"><GoVerified className='text-lg' /></span>
+                                            <img src={user?.photoURL} alt='' />
+                                        </div>
+                                    </label>
+                                    <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+                                        <li><button onClick={handleLogOut} className='btn btn-ghost'>Logout</button></li>
+                                    </ul>
+                                </div>
+                            </>
+                            :
+                            <Link className="btn btn-primary text-gray-50" to='/login'>Login</Link>
+                    }
                 </div>
             </div>
         </div>
