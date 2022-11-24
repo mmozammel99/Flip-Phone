@@ -22,22 +22,22 @@ const Header = () => {
         {user?.uid && !isSeller && !isAdmin &&
             <>
                 <li><Link>My Order</Link></li>
-                <li><Link>My wish</Link></li>
+                {/* <li><Link>My wish</Link></li> */}
             </>
         }
         {
           user?.uid && isSeller &&
             <>
                 <li><Link>Add Product</Link></li>
-                <li><Link>My Product</Link></li>
-                <li><Link>My Buyers</Link></li>
+                <li><Link> My Products</Link></li>
+                {/* <li><Link>My buyers</Link></li> */}
             </>
         }
         {
           user?.uid &&  isAdmin &&
             <>
+                <li><Link to='/allUsers'>All User</Link></li>
                 <li><Link>All Sellers</Link></li>
-                <li><Link>All Buyers</Link></li>
                 <li><Link>Reported Items</Link></li>
             </>
         }

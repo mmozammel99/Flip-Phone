@@ -1,11 +1,27 @@
 import React from 'react';
-import { FaApple,FaGoogle } from "react-icons/fa";
-import { SiSamsung ,SiOneplus} from "react-icons/si";
+import { useQuery } from '@tanstack/react-query';
+import { FaApple, FaGoogle } from "react-icons/fa";
+import { SiSamsung, SiOneplus } from "react-icons/si";
+import CategoriesCard from './CategoriesCard';
 const HomeProductCategories = () => {
-    
+    const { data: categories = [] } = useQuery({
+        queryKey: ['categories'],
+        queryFn: async () => {
+            const res = await fetch('http://localhost:5000/categories')
+            const data = await res.json()
+            return data
+        }
+    })
+    console.log(categories);
     return (
         <div className='grid gap-10 m-10 grid-cols-1 md:grid-cols-2 text-center'>
-            <div className="card  bg-neutral text-primary-content">
+            {
+                categories.map(c => <CategoriesCard
+                key={c._id}
+                category={c}
+                ></CategoriesCard>)
+            }
+            {/* <div className="card  bg-neutral text-primary-content">
                 <div className="card-body  text-canter text-secondary-content">
                     <h2 className=" text-7xl mx-auto my-7"><FaApple></FaApple></h2>
                     <pc className='text-5xl font-medium'>Appel</pc>
@@ -36,7 +52,7 @@ const HomeProductCategories = () => {
                     <div className="card-actions justify-end">
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };

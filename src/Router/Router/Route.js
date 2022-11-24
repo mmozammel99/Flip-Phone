@@ -1,5 +1,7 @@
+import AllUser from "../../Pages/Admin/AllUser/AllUser";
 import Login from "../../Pages/Login/Login";
 import Signup from "../../Signup/Signup";
+import AdminRoute from "../AdminRout/AdminRout";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main");
@@ -21,6 +23,10 @@ const router = createBrowserRouter([
             {
                 path: '/signup',
                 element: <Signup></Signup>
+            },
+            {
+                path: '/allUsers',
+                element: <AdminRoute><AllUser></AllUser></AdminRoute>
             },
         ]
     }
