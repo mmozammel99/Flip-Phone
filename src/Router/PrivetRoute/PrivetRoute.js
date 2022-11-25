@@ -3,7 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../AuthCoxtext/AuthProvider';
 import Loading from '../../Pages/Shared/Loading/Loading';
 
-const BuyerRout = ({ children }) => {
+const PrivetRoute = ({ children }) => {
     const { user ,loading} = useContext(AuthContext)
     const location = useLocation()
     if(loading){
@@ -15,4 +15,4 @@ const BuyerRout = ({ children }) => {
     return <Navigate to='/login' state={{ from: location }} replace></Navigate>
 };
 
-export default BuyerRout;
+export default PrivetRoute;

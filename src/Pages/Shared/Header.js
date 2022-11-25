@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { TbLayoutSidebarRightCollapse } from 'react-icons/tb';
 import { Link } from 'react-router-dom';
 import logo from '../../Assets/logo.png';
 import { AuthContext } from '../../AuthCoxtext/AuthProvider';
@@ -47,7 +48,7 @@ const Header = () => {
                         user?.uid ?
                             <>
                            
-                                <div className="dropdown dropdown-end">
+                                <div className="dropdown dropdown-end ">
                                     <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                                         <div className="w-10 rounded-full ">
                                             <span className="absolute bottom-0 right-0 w-4 h-4 bg-green-600 border rounded-full text-gray-800 border-gray-50"></span>
@@ -58,10 +59,12 @@ const Header = () => {
                                         <li><button onClick={handleLogOut} className='btn btn-ghost'>Logout</button></li>
                                     </ul>
                                 </div>
+                               
                             </>
                             :
                             <Link className="btn btn-primary text-gray-50" to='/login'>Login</Link>
                     }
+                     <label htmlFor="my-drawer-2" className="btn btn-ghost drawer-button lg:hidden text-left text-gray-500  text-4xl p-0 m-0"><TbLayoutSidebarRightCollapse /> </label>
                 </div>
             </div>
         </div>

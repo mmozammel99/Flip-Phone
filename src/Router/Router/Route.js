@@ -4,6 +4,11 @@ import Login from "../../Pages/Login/Login";
 import Signup from "../../Signup/Signup";
 import AdminRoute from "../AdminRout/AdminRout";
 import DashboardLayout from "../../Layout/DashboardLayout";
+import PrivetRoute from "../PrivetRoute/PrivetRoute";
+import SellerRoute from "../SellerRoute/SellerRoute";
+import AddProduct from "../../Pages/Sellers/AddProduct/AddProduct";
+import MyProduct from "../../Pages/Sellers/MyProduct/MyProduct";
+import PageNotFount from "../../Pages/Shared/Error/PageNotFount";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main");
@@ -30,17 +35,18 @@ const router = createBrowserRouter([
                 path: '/allseller',
                 element: <AdminRoute><AllSeller></AllSeller></AdminRoute>
             },
-            
+
         ]
     },
     {
         path: '/dashboard',
-        element: <DashboardLayout></DashboardLayout>,
-        children:[
+        element: <PrivetRoute><DashboardLayout></DashboardLayout></PrivetRoute>,
+        children: [
             // {
             //     path: '/dashboard',
             //     element: <AdminRoute><AllBuyers></AllBuyers></AdminRoute>
             // },
+            // admin
             {
                 path: '/dashboard/allbuyers',
                 element: <AdminRoute><AllBuyers></AllBuyers></AdminRoute>
@@ -49,7 +55,21 @@ const router = createBrowserRouter([
                 path: '/dashboard/allseller',
                 element: <AdminRoute><AllSeller></AllSeller></AdminRoute>
             },
+            {
+                path: '/dashboard/addproduct',
+                element: <SellerRoute><AddProduct></AddProduct></SellerRoute>
+            },
+            {
+                path: '/dashboard/myproduct',
+                element: <SellerRoute><MyProduct></MyProduct></SellerRoute>
+            },
         ]
     },
+
+    {
+        path: '/*',
+        element: <PageNotFount></PageNotFount>
+    }
+
 ])
 export default router
