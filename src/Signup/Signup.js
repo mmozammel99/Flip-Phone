@@ -1,20 +1,31 @@
 import { GoogleAuthProvider } from 'firebase/auth';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../AuthCoxtext/AuthProvider';
+import useToken from '../Hooks/useToken';
 
 const Signup = () => {
     const { createUser, userUpdate, LoginWithPopup } = useContext(AuthContext)
+    const googleProvider = new GoogleAuthProvider()
     const { register, formState: { errors }, handleSubmit } = useForm();
     const navigate = useNavigate()
+
     const imageHostKey = process.env.REACT_APP_imgbb_Key;
-    const googleProvider = new GoogleAuthProvider()
+
+
+    const [loginEmail, setLoginEmail] = useState('')
+
+    const [token] = useToken(loginEmail)
+    
+    if (token) {
+        navigate('/')
+    }
     const handleSignup = data => {
         createUser(data.email, data.password)
             .then(result => {
-                console.log(result);
+                setLoginEmail(data.email);
                 const image = data.avatar[0];
                 const formData = new FormData();
                 formData.append('image', image);
@@ -44,7 +55,8 @@ const Signup = () => {
                                     }
 
                                     userSaveInDb(data.email, data.name, userPhoto, role)
-                                    navigate('/')
+
+
                                 })
                                 .catch(() => { })
 
@@ -71,6 +83,7 @@ const Signup = () => {
     const handleGoogle = () => {
         LoginWithPopup(googleProvider)
             .then(result => {
+                setLoginEmail(result.user.email);
                 toast.success('Successfully Sign Up')
 
             })
@@ -80,7 +93,7 @@ const Signup = () => {
 
 
     return (
-        <div className="w-full max-w-md mx-auto my-5 p-8 space-y-3 rounded-xl shadow bg-gray-100 text-gray-800">
+        <div className="w-full max-w-md mx-auto lg:my-5 p-8 space-y-3 rounded-xl lg:shadow bg-gray-100 text-gray-800">
             <h1 className="text-2xl font-bold text-center">Sign Up</h1>
             <form onSubmit={handleSubmit(handleSignup)} action="" className="space-y-6 ng-untouched ng-pristine ng-valid">
                 <div className="space-y-1 text-sm">

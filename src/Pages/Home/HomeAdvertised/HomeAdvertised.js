@@ -9,7 +9,7 @@ const HomeAdvertised = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10  my-10 mx-1 ">
 
             {
-                cards.map(c => <Card>
+                cards.map((c,i) => <Card key={i}>
 
                 </Card>)
             }

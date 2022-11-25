@@ -1,14 +1,24 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import toast from 'react-hot-toast';
+import Loading from '../../Shared/Loading/Loading';
 
 const AllUser = () => {
-    const { data: sellers = [], refetch } = useQuery({
+    const { data: sellers,isLoading, refetch } = useQuery({
         queryKey: ['sellers'],
         queryFn: async () => {
-            const res = await fetch('http://localhost:5000/sellers')
-            const data = await res.json()
-            return data
+            try {
+                const res = await fetch('http://localhost:5000/sellers', {
+                    headers: {
+                        authorization: `bearer ${localStorage.getItem('geniusToken')}`
+                    }
+                })
+                const data = await res.json()
+                return data
+            }
+            catch (err) {
+
+            }
         }
     })
 
@@ -42,6 +52,9 @@ const AllUser = () => {
                 refetch()
                 toast.success('Successfully deleted seller')
             })
+    }
+    if(isLoading){
+        return <Loading></Loading>
     }
     return (
         <div>
@@ -82,7 +95,7 @@ const AllUser = () => {
                                 </td>
 
                                 <th>
-                                    {seller?.verified?
+                                    {seller?.verified ?
                                         <button className="btn btn-primary btn-xs" >verified</button>
                                         :
                                         <button onClick={() => handleVerified(seller._id)} className="btn btn-secondary btn-xs">Add verified</button>

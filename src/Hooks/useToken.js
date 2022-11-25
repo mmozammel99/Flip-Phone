@@ -7,9 +7,10 @@ const useToken = email => {
             fetch(`http://localhost:5000/jwt?email=${email}`)
                 .then(res => res.json())
                 .then(data => {
-                    if (data.accessToken) {
-                        localStorage.setItem('geniusToken', data.accessToken)
-                        setToken(data.accessToken)
+                    console.log(data);
+                    if (data.geniusToken) {
+                        localStorage.setItem('geniusToken', data.geniusToken)
+                        setToken(data.geniusToken)
                     }
                 })
         }
