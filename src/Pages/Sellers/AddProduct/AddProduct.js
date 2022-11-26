@@ -2,15 +2,17 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { GoVerified } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../AuthCoxtext/AuthProvider';
+import useVerify from '../../../Hooks/useVerify';
 import Loading from '../../Shared/Loading/Loading'
 
 const AddProduct = () => {
     const { user } = useContext(AuthContext)
     const [categories, setCategories] = useState([])
-    const [isLoading,setIsLoading]=useState(false)
-
+    const [isLoading, setIsLoading] = useState(false)
+    const [isVerify, isVerifyLoading] = useVerify(user?.email)
     const { register, formState: { errors }, handleSubmit } = useForm();
     const navigate = useNavigate()
     const imageHostKey = process.env.REACT_APP_imgbb_Key;
@@ -25,13 +27,13 @@ const AddProduct = () => {
 
 
     let condition = null
-    const postTime =new Date()
-   
+    const postTime = new Date()
+
     const handleAddProduct = data => {
 
         setIsLoading(true)
 
-        if (data.condition ==="1") {
+        if (data.condition === "1") {
             condition = 'Fair'
         }
         else if (data.condition === "2") {
@@ -92,9 +94,9 @@ const AddProduct = () => {
                 navigate('/dashboard/myproduct')
             })
     }
-   if(isLoading){
-    return <Loading></Loading>
-   }
+    if (isLoading || isVerifyLoading) {
+        return <Loading></Loading>
+    }
     return (
         <div>
             <section className="p-6 bg-gray-100 text-gray-900">
@@ -204,7 +206,7 @@ const AddProduct = () => {
                                 </label> </div>
                             <div className="col-span-full ">
                                 <label className="text-sm">Description</label>
-                                <textarea id="description" className="w-full h-52 rounded-md focus:ring focus:ring-opacity-75 focus:ring-green-600 border-gray-300 text-gray-900" {...register("description",
+                                <textarea id="description" className="w-full h-52 p-3  rounded-md focus:ring focus:ring-opacity-75 focus:ring-green-600 border-gray-300 text-gray-900" {...register("description",
                                     { required: "description is required" }
                                 )} >
 
@@ -223,25 +225,29 @@ const AddProduct = () => {
                         <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
                             <div className="col-span-full sm:col-span-3">
                                 <label className="text-sm">Username</label>
-                                <input id="username" type="text" defaultValue={user?.displayName} readOnly className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-green-600 border-gray-300 text-gray-900" />
+                                <input id="username" type="text" defaultValue={user?.displayName} readOnly className="w-full p-3 rounded-md focus:ring focus:ring-opacity-75 focus:ring-green-600 border-gray-300 text-gray-900" />
                             </div>
                             <div className="col-span-full sm:col-span-3">
                                 <label className="text-sm">Email</label>
-                                <input id="email" type="text" defaultValue={user?.email} readOnly className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-green-600 border-gray-300 text-gray-900" />
+                                <input id="email" type="text" defaultValue={user?.email} readOnly className="w-full p-3 rounded-md focus:ring focus:ring-opacity-75 focus:ring-green-600 border-gray-300 text-gray-900" />
                             </div>
                             <div className="col-span-full sm:col-span-3">
                                 <label className="text-sm">Phone Number</label>
-                                <input id="Phone" type="text" className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-green-600 border-gray-300 text-gray-900" {...register("phone",
+                                <input id="Phone" type="text" className="w-full p-3 rounded-md focus:ring focus:ring-opacity-75 focus:ring-green-600 border-gray-300 text-gray-900" {...register("phone",
                                     { required: "Phone Number is required" }
                                 )} placeholder="Phone Number" />
                                 {errors.phone && <p role="alert">{errors.phone?.message}</p>}
                             </div>
 
                             <div className="col-span-full">
-                                <label className="text-sm">Photo</label>
                                 <div className="flex items-center space-x-2">
-                                    <img src={user.photoURL} alt="" className="w-10 h-10 rounded-full bg-gray-500 " />
-
+                                    <div className="w-10 rounded-full ">
+                                        {
+                                            isVerify &&
+                                                 <GoVerified className='text-info absolute w-4 h-4' />
+                                        }
+                                        <img src={user?.photoURL} alt='' />
+                                    </div>
                                 </div>
                             </div>
                         </div>

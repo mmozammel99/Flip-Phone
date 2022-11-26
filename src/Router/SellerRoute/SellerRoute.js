@@ -7,12 +7,12 @@ import Loading from '../../Pages/Shared/Loading/Loading';
 
 const SellerRoute = ({ children }) => {
     const { user, loading } = useContext(AuthContext)
-    const  [isSeller, isSellerLoading] = useSeller(user?.email)
+    const [isSellerOrAdmin, isSellerOrAdminLoading] = useSeller(user?.email)
     const location = useLocation()
-    if (loading || isSellerLoading) {
+    if (loading || isSellerOrAdminLoading) {
         return <Loading></Loading>
     }
-    if (user && isSeller) {
+    if (user && isSellerOrAdmin) {
         return children;
     }
     return <Navigate to='/login' state={{ from: location }} replace></Navigate>

@@ -18,7 +18,7 @@ const Signup = () => {
     const [loginEmail, setLoginEmail] = useState('')
 
     const [token] = useToken(loginEmail)
-    
+
     if (token) {
         navigate('/')
     }
@@ -65,6 +65,25 @@ const Signup = () => {
             }
             )
     };
+
+
+
+
+    const handleGoogle = () => {
+        LoginWithPopup(googleProvider)
+            .then(result => {
+                setLoginEmail(result.user.email);
+                toast.success('Successfully Sign Up')
+                const { email, displayName, photoURL } = result.user
+                console.log(result);
+                const role = ""
+                userSaveInDb(email, displayName, photoURL, role)
+
+            })
+            .catch(() => { })
+    }
+
+
     const userSaveInDb = (email, name, photoURL, role) => {
         const user = { email, name, photoURL, role }
         fetch('http://localhost:5000/users', {
@@ -80,15 +99,7 @@ const Signup = () => {
             })
     }
 
-    const handleGoogle = () => {
-        LoginWithPopup(googleProvider)
-            .then(result => {
-                setLoginEmail(result.user.email);
-                toast.success('Successfully Sign Up')
 
-            })
-            .catch(() => { })
-    }
 
 
 

@@ -14,8 +14,8 @@ import Loading from '../Pages/Shared/Loading/Loading';
 const DashboardLayout = () => {
     const { user } = useContext(AuthContext)
     const [isAdmin, isAdminLoading] = useAdmin(user?.email)
-    const [isSeller, isSellerLoading] = useSeller(user?.email)
-    if (isSellerLoading || isAdminLoading) {
+    const [isSellerOrAdmin, isSellerOrAdminLoading] = useSeller(user?.email)
+    if (isSellerOrAdminLoading || isAdminLoading) {
         return <Loading></Loading>
     }
     return (
@@ -45,7 +45,7 @@ const DashboardLayout = () => {
                         </li>
 
 
-                        {user?.uid && !isSeller && !isAdmin &&
+                        {user?.uid && !isSellerOrAdmin && 
                             <>
                                 <li>
                                     <Link className="flex items-center p-2 space-x-3 rounded-md">
@@ -57,7 +57,7 @@ const DashboardLayout = () => {
                             </>}
 
                         {
-                            user?.uid && isSeller &&
+                            user?.uid && isSellerOrAdmin &&
                             <>
                                 <li><Link to='/dashboard/addproduct' className="flex items-center p-2 space-x-3 rounded-md"><RiAddCircleLine />
                                     <span>Add Product</span></Link></li>
@@ -69,6 +69,14 @@ const DashboardLayout = () => {
                         {
                             user?.uid && isAdmin &&
                             <>
+                               
+                               <li>
+                                    <Link className="flex items-center p-2 space-x-3 rounded-md">
+                                        <RiShoppingCart2Line />
+                                        <span>My Order</span>
+                                    </Link>
+                                </li>
+
                                 <li><Link to='/dashboard/allseller' className="flex items-center p-2 space-x-3 rounded-md"><GrUserManager />
                                     <span>All Sellers</span></Link></li>
                                 <li><Link to='/dashboard/allbuyers' className="flex items-center p-2 space-x-3 rounded-md"><HiOutlineUserGroup />
