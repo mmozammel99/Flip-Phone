@@ -8,7 +8,7 @@ import HomeTopBanner from '../HomeTopBanner/HomeTopBanner';
 import Review from '../Review/Review';
 
 const Home = () => {
-    const { data:products,isLoading } = useQuery({
+    const { data:products,isLoading,refetch } = useQuery({
         queryKey: ['products'],
         queryFn: async () => {
             try {
@@ -31,7 +31,8 @@ const Home = () => {
             {
                 products.length&&
             <HomeAdvertised
-            products={products}></HomeAdvertised>
+            products={products}
+            refetch={refetch}></HomeAdvertised>
             }
             <HomeProductCategories></HomeProductCategories>
             <HomeDownloadApp></HomeDownloadApp>

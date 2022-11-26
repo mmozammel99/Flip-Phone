@@ -11,7 +11,8 @@ const Login = () => {
     const { userLogin, LoginWithPopup } = useContext(AuthContext)
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [loginEmail, setLoginEmail] = useState('')
-console.log(loginEmail);
+
+
     const [token] = useToken(loginEmail)
 
     const location = useLocation();
@@ -30,7 +31,17 @@ console.log(loginEmail);
                 setLoginEmail(data.email)
 
             })
-            .catch(err => console.error(err))
+            .catch(err => {
+                const errorMsg = (err.message).split(':').pop().split('(')[0];
+                const error = (err.message).split('/').pop().split(')')[0];
+                if(errorMsg !== 'Error'){
+                    toast.error(errorMsg)
+
+                }
+                toast.error(error)
+               
+            })
+
     }
     const handleGoogle = () => {
         LoginWithPopup(googleProvider)
@@ -38,7 +49,13 @@ console.log(loginEmail);
                 toast.success('Successfully Sign In')
                 setLoginEmail(result.user.email);
             })
-            .catch(() => { })
+            .catch(err => {
+                const errorMsg = (err.message).split(':').pop().split('(')[0];
+                const error = (err.message).split('/').pop().split(')')[0];
+                toast.error(errorMsg)
+                toast.error(error)
+            })
+
     }
 
     return (
@@ -66,6 +83,7 @@ console.log(loginEmail);
                     <div className="flex justify-end text-xs text-gray-600">
                         <Link >Forgot Password?</Link>
                     </div>
+                    {errors.password && <p role="alert">{errors.password?.message}</p>}
                 </div>
                 <button className="block w-full p-3 text-center rounded-sm text-gray-50 bg-primary">Sign in</button>
             </form>

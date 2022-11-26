@@ -3,7 +3,7 @@ import axios from "axios";
 import CategoriesCard from './CategoriesCard';
 const HomeProductCategories = () => {
     const [categories, setCategories] = useState([])
- 
+
     useEffect(() => {
 
         axios
@@ -20,7 +20,7 @@ const HomeProductCategories = () => {
                     category={c}
                 ></CategoriesCard>)
             }
-           
+
         </div>
     );
 };

@@ -1,7 +1,36 @@
 import React from 'react';
+import toast from 'react-hot-toast';
 import Card from '../../../Components/Card';
 
-const HomeAdvertised = ({ products }) => {
+const HomeAdvertised = ({ products, refetch }) => {
+
+    const handleReport = id => {
+        fetch(`http://localhost:5000/report/${id}`, {
+            method: 'PUT',
+
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.modifiedCount > 0) {
+                    toast.success('Successfully Product Reported')
+                }
+            })
+
+    }
+    // console.log(products);
+    const handleDelete = id => {
+        fetch(`http://localhost:5000/product/${id}`, {
+            method: "DELETE",
+            headers: {
+                authorization: `bearer ${localStorage.getItem('geniusToken')}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                refetch()
+                toast.success('Successfully deleted product')
+            })
+    }
 
     return (
         <>
@@ -10,7 +39,10 @@ const HomeAdvertised = ({ products }) => {
 
                 {
                     products.map((p) => <Card key={p._id}
-                        product={p}>
+                        product={p}
+                        handleDelete={handleDelete}
+                        handleReport={handleReport}
+                    >
 
                     </Card>)
                 }

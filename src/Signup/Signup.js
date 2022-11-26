@@ -14,8 +14,8 @@ const Signup = () => {
 
     const imageHostKey = process.env.REACT_APP_imgbb_Key;
 
-
     const [loginEmail, setLoginEmail] = useState('')
+
 
     const [token] = useToken(loginEmail)
 
@@ -58,7 +58,12 @@ const Signup = () => {
 
 
                                 })
-                                .catch(() => { })
+                                .catch(err => {
+                                    const errorMsg = (err.message).split(':').pop().split('(')[0];
+                                    const error = (err.message).split('/').pop().split(')')[0];
+                                    toast.error(errorMsg)
+                                    toast.error(error)
+                                })
 
                         }
                     })
@@ -80,7 +85,13 @@ const Signup = () => {
                 userSaveInDb(email, displayName, photoURL, role)
 
             })
-            .catch(() => { })
+            .catch(err => {
+                const errorMsg = (err.message).split(':').pop().split('(')[0];
+                const error = (err.message).split('/').pop().split(')')[0];
+                toast.error(errorMsg)
+                toast.error(error)
+            })
+
     }
 
 
@@ -153,8 +164,8 @@ const Signup = () => {
                         <input id="Toggle3" type="checkbox" className="hidden peer" {...register("role",
 
                         )} />
-                        <span className="px-4 py-2 rounded-l-md bg-green-600 peer-checked:bg-gray-700">Buyer</span>
-                        <span className="px-4 py-2 rounded-r-md bg-gray-700 peer-checked:bg-green-600">Seller</span>
+                        <span className="px-4 py-2 rounded-l-md bg-green-600 peer-checked:bg-gray-500">Buyer</span>
+                        <span className="px-4 py-2 rounded-r-md bg-gray-500 peer-checked:bg-green-600">Seller</span>
                     </label>
                 </div>
                 <button className="block w-full p-3 text-center rounded-sm text-gray-50 btn btn-primary">Sign Up</button>

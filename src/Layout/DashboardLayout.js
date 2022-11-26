@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import Header from '../Pages/Shared/Header';
 import { RiDashboard3Line, RiShoppingCart2Line, RiAddCircleLine } from "react-icons/ri";
-import { AiFillShop } from "react-icons/ai";
+import { BsShop } from "react-icons/bs";
+import { FiShoppingBag } from "react-icons/fi";
 import { GrUserManager } from "react-icons/gr";
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { MdOutlineReport } from "react-icons/md";
@@ -44,8 +45,17 @@ const DashboardLayout = () => {
                             <hr></hr>
                         </li>
 
-
-                        {user?.uid && !isSellerOrAdmin && 
+                        {
+                            user?.uid &&
+                            <li>
+                                <Link to='/dashboard' className="flex items-center p-2 space-x-3 rounded-md">
+                                    <FiShoppingBag />
+                                    <span>All Products</span>
+                                </Link>
+                            </li>
+                        }
+                        {
+                            user?.uid && !isSellerOrAdmin &&
                             <>
                                 <li>
                                     <Link className="flex items-center p-2 space-x-3 rounded-md">
@@ -61,7 +71,7 @@ const DashboardLayout = () => {
                             <>
                                 <li><Link to='/dashboard/addproduct' className="flex items-center p-2 space-x-3 rounded-md"><RiAddCircleLine />
                                     <span>Add Product</span></Link></li>
-                                <li><Link to='/dashboard/myproduct' className="flex items-center p-2 space-x-3 rounded-md"><AiFillShop />
+                                <li><Link to='/dashboard/myproduct' className="flex items-center p-2 space-x-3 rounded-md"><BsShop />
                                     <span>My Products</span> </Link></li>
                                 {/* <li><Link>My buyers</Link></li> */}
                             </>
@@ -69,8 +79,8 @@ const DashboardLayout = () => {
                         {
                             user?.uid && isAdmin &&
                             <>
-                               
-                               <li>
+
+                                <li>
                                     <Link className="flex items-center p-2 space-x-3 rounded-md">
                                         <RiShoppingCart2Line />
                                         <span>My Order</span>
@@ -81,7 +91,7 @@ const DashboardLayout = () => {
                                     <span>All Sellers</span></Link></li>
                                 <li><Link to='/dashboard/allbuyers' className="flex items-center p-2 space-x-3 rounded-md"><HiOutlineUserGroup />
                                     <span>All Buyers</span></Link></li>
-                                <li><Link className="flex items-center p-2 space-x-3 rounded-md"><MdOutlineReport />
+                                <li><Link to='/dashboard/reporteditems' className="flex items-center p-2 space-x-3 rounded-md"><MdOutlineReport />
                                     <span>Reported Items</span></Link></li>
                             </>
                         }

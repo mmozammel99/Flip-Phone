@@ -10,10 +10,10 @@ import useVerify from '../Hooks/useVerify';
 import { GoVerified } from "react-icons/go";
 
 
-const Card = ({ product, handleDelete, handleAdvertise }) => {
+const Card = ({ product, handleDelete, handleAdvertise, handleReport }) => {
     const { user } = useContext(AuthContext)
     const [isAdmin, isAdminLoading] = useAdmin(user?.email)
-    const [isSellerOrAdmin ,isSellerOrAdminLoading] = useSeller(user?.email)
+    const [isSellerOrAdmin, isSellerOrAdminLoading] = useSeller(user?.email)
 
     const {
         productName,
@@ -71,8 +71,8 @@ const Card = ({ product, handleDelete, handleAdvertise }) => {
                 <div className='flex gap-2 justify-between items-center'>
                     <p className='text-xs font-semibold text-gray-400 '>{time}</p>
 
-                    {user?.uid && !isSellerOrAdmin && 
-                        <button className="tooltip tooltip-accent" data-tip="Report">
+                    {user?.email !== sellerEmail && !isAdmin &&
+                        <button onClick={() => handleReport(_id)} className="tooltip tooltip-accent" data-tip="Report">
                             <MdReport className='text-error text-2xl' />
                         </button>
                     }
@@ -94,20 +94,25 @@ const Card = ({ product, handleDelete, handleAdvertise }) => {
                     </div>
                 </div>
                 <div className="card-actions w-full justify-center items-center mt-5">
-                    {!user?.uid && !isSellerOrAdmin && 
+                    {!user?.uid &&
                         <Link to='/login' className="btn btn-primary text-white">Book now</Link>
                     }
-                    {user?.uid && !isSellerOrAdmin && 
+                    {user?.uid && !isSellerOrAdmin &&
                         <button className="btn btn-primary text-white">Book now</button>
                     }
-                    {user?.uid && isAdmin &&
-                        <button onClick={() => handleDelete(_id)} className="btn btn-accent text-white">Delete</button>
-                    }
-                    {user?.uid && isSellerOrAdmin &&
+                   
+                    {user?.email === sellerEmail && isSellerOrAdmin && !advertisement &&
                         <div className="card-actions w-full justify-between items-center mt-5">
                             <button onClick={() => handleAdvertise(_id)} className="btn btn-warning text-white">Advertise</button>
                             <button onClick={() => handleDelete(_id)} className="btn btn-accent text-white">Delete</button>
                         </div>
+                    }
+                     {user?.email !== sellerEmail && isAdmin &&
+                        <button onClick={() => handleDelete(_id)} className="btn btn-accent text-white">Delete</button>
+                    }
+                    {
+                        user?.email === sellerEmail && isSellerOrAdmin && advertisement &&
+                        <button onClick={() => handleDelete(_id)} className="btn btn-accent text-white">Delete</button>
                     }
                 </div>
             </div>

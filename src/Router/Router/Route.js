@@ -9,6 +9,10 @@ import SellerRoute from "../SellerRoute/SellerRoute";
 import AddProduct from "../../Pages/Sellers/AddProduct/AddProduct";
 import MyProduct from "../../Pages/Sellers/MyProduct/MyProduct";
 import PageNotFount from "../../Pages/Shared/Error/PageNotFount";
+import DisplayError from "../../Pages/Shared/Error/DisplayError";
+import Categories from "../../Pages/Categories.js/Categories";
+import ReportedItems from "../../Pages/Admin/ReportedItems/ReportedItems";
+import AllProducts from "../../Pages/AllProducts/AllProduct";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main");
@@ -18,6 +22,7 @@ const router = createBrowserRouter([
     {
         path: '/',
         element: <Main></Main>,
+        errorElement: <DisplayError></DisplayError>,
         children: [
             {
                 path: '/',
@@ -32,6 +37,11 @@ const router = createBrowserRouter([
                 element: <Signup></Signup>
             },
             {
+                path: '/categories/:id',
+                element: <Categories></Categories>,
+                loader: ({ params }) => fetch(`http://localhost:5000/categories/${params.id}`)
+            },
+            {
                 path: '/allseller',
                 element: <AdminRoute><AllSeller></AllSeller></AdminRoute>
             },
@@ -41,11 +51,14 @@ const router = createBrowserRouter([
     {
         path: '/dashboard',
         element: <PrivetRoute><DashboardLayout></DashboardLayout></PrivetRoute>,
+        errorElement: <DisplayError></DisplayError>,
         children: [
-            // {
-            //     path: '/dashboard',
-            //     element: <AdminRoute><AllBuyers></AllBuyers></AdminRoute>
-            // },
+            /// user
+            {
+                path: '/dashboard',
+                element: <AllProducts></AllProducts>
+            },
+
             // admin
             {
                 path: '/dashboard/allbuyers',
@@ -55,7 +68,11 @@ const router = createBrowserRouter([
                 path: '/dashboard/allseller',
                 element: <AdminRoute><AllSeller></AllSeller></AdminRoute>
             },
-           
+            {
+                path: '/dashboard/reporteditems',
+                element: <AdminRoute><ReportedItems></ReportedItems></AdminRoute>
+            },
+
 
             // seller
 
@@ -67,6 +84,7 @@ const router = createBrowserRouter([
                 path: '/dashboard/myproduct',
                 element: <SellerRoute><MyProduct></MyProduct></SellerRoute>
             },
+            
         ]
     },
 
