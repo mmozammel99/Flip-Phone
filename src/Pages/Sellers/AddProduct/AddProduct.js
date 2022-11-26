@@ -24,14 +24,14 @@ const AddProduct = () => {
     }, [])
 
 
+    let condition = null
+    const postTime =new Date()
    
     const handleAddProduct = data => {
-        let condition = null
-        const postTime =new Date()
 
         setIsLoading(true)
 
-        if (data.condition === "1") {
+        if (data.condition ==="1") {
             condition = 'Fair'
         }
         else if (data.condition === "2") {
@@ -155,7 +155,7 @@ const AddProduct = () => {
                             <div className="col-span-full sm:col-span-3">
                                 <label className="text-sm">Product Condition</label>
                                 <fieldset className="space-y-1 w-full px-2 text-gray-800">
-                                    <input type="range" className="w-full range range-primary" min="1" max="3" {...register("Condition",
+                                    <input type="range" className="w-full range range-primary" min="1" max="3" {...register("condition",
                                         { required: "Condition is required" }
                                     )} />
                                     <div aria-hidden="true" className="flex justify-between px-2">
