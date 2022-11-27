@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import Card from '../../../Components/Card';
+import ConfirmationModel from '../../../Components/ConfirmationModel';
 
 const HomeAdvertised = ({ products, refetch }) => {
+
+    const [productInfo, setProductInfo] = useState(null)
+    const [deleteAction, setDeleteAction] = useState(false)
+    const [reportAction, setReportAction] = useState(false)
+
+    const closeModal = () => {
+        setProductInfo(null)
+    }
 
     const handleReport = id => {
         fetch(`http://localhost:5000/report/${id}`, {
@@ -12,6 +21,7 @@ const HomeAdvertised = ({ products, refetch }) => {
             .then(res => res.json())
             .then(data => {
                 if (data.modifiedCount > 0) {
+                    setProductInfo(null)
                     toast.success('Successfully Product Reported')
                 }
             })
@@ -28,6 +38,7 @@ const HomeAdvertised = ({ products, refetch }) => {
             .then(res => res.json())
             .then(data => {
                 refetch()
+                setProductInfo(null)
                 toast.success('Successfully deleted product')
             })
     }
@@ -40,13 +51,26 @@ const HomeAdvertised = ({ products, refetch }) => {
                 {
                     products.map((p) => <Card key={p._id}
                         product={p}
-                        handleDelete={handleDelete}
-                        handleReport={handleReport}
+                        setProductInfo={setProductInfo}
+                        setDeleteAction={setDeleteAction}
+                        setReportAction={setReportAction}
                     >
 
                     </Card>)
                 }
             </div>
+            {productInfo &&
+                <ConfirmationModel
+                    closeModal={closeModal}
+                    info={productInfo}
+
+                    deleteAction={deleteAction}
+                    handleDelete={handleDelete}
+
+                    handleReport={handleReport}
+                    reportAction={reportAction}
+                ></ConfirmationModel>
+            }
         </>
     );
 };

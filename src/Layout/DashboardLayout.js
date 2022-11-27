@@ -83,12 +83,12 @@ const DashboardLayout = () => {
                             user?.uid && isAdmin &&
                             <>
 
-                                <li>
+                                {/* <li>
                                     <Link className="flex items-center p-2 space-x-3 rounded-md">
                                         <RiShoppingCart2Line />
                                         <span>My Order</span>
                                     </Link>
-                                </li>
+                                </li> */}
 
                                 <li><Link to='/dashboard/alluser' className="flex items-center p-2 space-x-3 rounded-md"><HiOutlineUserGroup />
                                     <span>All User</span></Link></li>

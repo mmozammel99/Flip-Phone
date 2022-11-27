@@ -1,10 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import ConfirmationModel from '../../../Components/ConfirmationModel';
 import Loading from '../../Shared/Loading/Loading';
 
 const AllSeller = () => {
-    const { data: sellers,isLoading, refetch } = useQuery({
+    const [info, setInfo] = useState(null)
+    const [userDeleteAction, setUserDeleteAction] = useState(false)
+    const [sellerVerifyAction, setSellerVerifyAction] = useState(false)
+    const closeModal = () => {
+        setInfo(null)
+    }
+
+    const { data: sellers, isLoading, refetch } = useQuery({
         queryKey: ['sellers'],
         queryFn: async () => {
             try {
@@ -33,13 +41,14 @@ const AllSeller = () => {
             .then(data => {
                 if (data.modifiedCount > 0) {
                     refetch()
+                    setInfo(null)
                     toast.success('Successfully verified seller')
                 }
             })
 
     }
 
-    const handleDelete = id => {
+    const handleDeleteUser = id => {
         fetch(`http://localhost:5000/sellers/${id}`, {
             method: "DELETE",
             headers: {
@@ -48,12 +57,24 @@ const AllSeller = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 refetch()
+                setInfo(null)
                 toast.success('Successfully deleted seller')
             })
     }
-    if(isLoading){
+    const sellerVerify = (seller) => {
+        setInfo(seller);
+        setUserDeleteAction(false)
+        setSellerVerifyAction(true)
+    }
+    const userDelete = (seller) => {
+        setInfo(seller);
+        setSellerVerifyAction(false)
+        setUserDeleteAction(true)
+    }
+
+    if (isLoading) {
         return <Loading></Loading>
     }
     return (
@@ -98,11 +119,11 @@ const AllSeller = () => {
                                     {seller?.verified ?
                                         <button className="btn btn-primary btn-xs" >verified</button>
                                         :
-                                        <button onClick={() => handleVerified(seller._id)} className="btn btn-secondary btn-xs">Add verified</button>
+                                        <label htmlFor="action-modal" onClick={() => sellerVerify(seller)} className="btn btn-secondary btn-xs">Add verified</label>
                                     }
                                 </th>
                                 <th>
-                                    <button onClick={() => handleDelete(seller._id)} className="btn btn-accent btn-xs">Delete</button>
+                                    <label htmlFor="action-modal" onClick={() => userDelete(seller)} className="btn btn-accent btn-xs">Delete</label>
                                 </th>
                             </tr>)
                         }
@@ -111,6 +132,19 @@ const AllSeller = () => {
 
                 </table>
             </div>
+            {info &&
+                <ConfirmationModel
+                    closeModal={closeModal}
+                    info={info}
+
+                    sellerVerifyAction={sellerVerifyAction}
+                    handleVerified={handleVerified}
+
+                    userDeleteAction={userDeleteAction}
+                    handleDeleteUser={handleDeleteUser}
+
+                ></ConfirmationModel>
+            }
         </div>
     );
 };

@@ -4,12 +4,24 @@ import toast from 'react-hot-toast';
 import { TbLayoutSidebarRightCollapse } from 'react-icons/tb';
 import { Link, useLoaderData } from 'react-router-dom';
 import Card from '../../Components/Card';
+import ConfirmationModel from '../../Components/ConfirmationModel';
 import Loading from '../Shared/Loading/Loading';
 
 const Categories = () => {
     const products = useLoaderData()
     const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(false)
+
+    const [productInfo, setProductInfo] = useState(null)
+    const [deleteAction, setDeleteAction] = useState(false)
+    const [advertiseAction, setAdvertiseAction] = useState(false)
+    const [reportAction, setReportAction] = useState(false)
+
+
+    const closeModal = () => {
+        setProductInfo(null)
+    }
+
     useEffect(() => {
 
         axios
@@ -27,7 +39,7 @@ const Categories = () => {
             .then(res => res.json())
             .then(data => {
                 if (data.modifiedCount > 0) {
-                    
+                    setProductInfo(null)
                     toast.success('Successfully Product Reported')
                 }
             })
@@ -46,6 +58,7 @@ const Categories = () => {
                 console.log(data);
                 if (data.modifiedCount > 0) {
                     setLoading(false)
+                     setProductInfo(null)
                     toast.success('Successfully Advertise product')
                 }
             })
@@ -63,7 +76,7 @@ const Categories = () => {
             .then(res => res.json())
             .then(data => {
                 setLoading(false)
-                console.log(data);
+                setProductInfo(null)
                 toast.success('Successfully deleted product')
             })
     }
@@ -85,9 +98,10 @@ const Categories = () => {
                             products.map((p) => <Card
                                 key={p._id}
                                 product={p}
-                                handleReport={handleReport}
-                                handleAdvertise={handleAdvertise}
-                                handleDelete={handleDelete}
+                                setProductInfo={setProductInfo}
+                                setDeleteAction={setDeleteAction}
+                                setAdvertiseAction={setAdvertiseAction}
+                                setReportAction={setReportAction}
                             >
 
                             </Card>)
@@ -117,7 +131,21 @@ const Categories = () => {
                 </div>
             </div>
 
+            {productInfo &&
+                <ConfirmationModel
+                    closeModal={closeModal}
+                    info={productInfo}
 
+                    deleteAction={deleteAction}
+                    handleDelete={handleDelete}
+
+                    advertiseAction={advertiseAction}
+                    handleAdvertise={handleAdvertise}
+
+                    handleReport={handleReport}
+                    reportAction={reportAction}
+                ></ConfirmationModel>
+            }
 
         </div>
     );

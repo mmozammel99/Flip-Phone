@@ -252,7 +252,7 @@ const AddProduct = () => {
                             </div>
                         </div>
                     </fieldset>
-                    <button type="submit" className="btn btn-primary w-full">Add Product</button>
+                    <button type="submit" className="btn btn-primary text-white w-full">Add Product</button>
                 </form>
             </section>
         </div >

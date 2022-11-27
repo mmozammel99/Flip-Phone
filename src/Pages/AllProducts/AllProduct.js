@@ -1,12 +1,24 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../AuthCoxtext/AuthProvider';
 import Card from '../../Components/Card';
+import ConfirmationModel from '../../Components/ConfirmationModel';
 import Loading from '../Shared/Loading/Loading';
 
 const AllProducts = () => {
     const { loading } = useContext(AuthContext);
+
+    const [productInfo, setProductInfo] = useState(null)
+    const [deleteAction, setDeleteAction] = useState(false)
+    const [advertiseAction, setAdvertiseAction] = useState(false)
+    const [reportAction, setReportAction] = useState(false)
+
+
+    const closeModal = () => {
+        setProductInfo(null)
+    }
+
     const { data: products, isLoading, refetch } = useQuery({
         queryKey: ['products'],
         queryFn: async () => {
@@ -37,13 +49,14 @@ const AllProducts = () => {
                 console.log(data);
                 if (data.modifiedCount > 0) {
                     refetch()
+                    setProductInfo(null)
                     toast.success('Successfully Advertise product')
                 }
             })
 
     }
     const handleReport = id => {
-       
+
         fetch(`http://localhost:5000/report/${id}`, {
             method: 'PUT',
 
@@ -51,7 +64,7 @@ const AllProducts = () => {
             .then(res => res.json())
             .then(data => {
                 if (data.modifiedCount > 0) {
-                    
+                    setProductInfo(null)
                     toast.success('Successfully Product Reported')
                 }
             })
@@ -69,27 +82,47 @@ const AllProducts = () => {
             .then(data => {
                 console.log(data);
                 refetch()
+                setProductInfo(null)
                 toast.success('Successfully deleted product')
             })
     }
     if (isLoading || loading) {
         return <Loading></Loading>
     }
-    return (<div className='overflow-y-hidden'>
-        <h3 className='text-4xl text-center mt-10 font-bold'>All Product</h3>
-        <div className="grid grid-cols-1  lg:grid-cols-2 gap-10  my-10 mx-3 md:mx-10 ">
+    return (
+        <>
+            <div className='overflow-y-hidden'>
+                <h3 className='text-4xl text-center mt-10 font-bold'>All Product</h3>
+                <div className="grid grid-cols-1  lg:grid-cols-2 gap-10  my-10 mx-3 md:mx-10 ">
 
-            {
-                products.map((p) => <Card key={p._id}
-                    product={p}
+                    {
+                        products.map((p) => <Card key={p._id}
+                            product={p}
+                            setProductInfo={setProductInfo}
+                            setDeleteAction={setDeleteAction}
+                            setAdvertiseAction={setAdvertiseAction}
+                            setReportAction={setReportAction}>
+
+                        </Card>)
+                    }
+                </div>
+            </div>
+            {productInfo &&
+                <ConfirmationModel
+                    closeModal={closeModal}
+                    info={productInfo}
+
+                    deleteAction={deleteAction}
                     handleDelete={handleDelete}
-                    handleAdvertise={handleAdvertise}
-                    handleReport={handleReport}>
 
-                </Card>)
+                    advertiseAction={advertiseAction}
+                    handleAdvertise={handleAdvertise}
+
+                    handleReport={handleReport}
+                    reportAction={reportAction}
+                ></ConfirmationModel>
             }
-        </div>
-    </div>
+        </>
     );
 };
 

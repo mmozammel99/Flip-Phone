@@ -1,10 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import Card from '../../../Components/Card';
+import ConfirmationModel from '../../../Components/ConfirmationModel';
 import Loading from '../../Shared/Loading/Loading';
 
 const ReportedItems = () => {
+    const [productInfo, setProductInfo] = useState(null)
+    const [deleteAction, setDeleteAction] = useState(false)
+
+    const closeModal = () => {
+        setProductInfo(null)
+    }
+
     const url = `http://localhost:5000/report`
     const { data: products, isLoading, refetch } = useQuery({
         queryKey: ['products',],
@@ -36,26 +44,40 @@ const ReportedItems = () => {
             .then(data => {
                 console.log(data);
                 refetch()
+                setProductInfo(null)
                 toast.success('Successfully deleted product')
             })
     }
     if (isLoading) {
         return <Loading></Loading>
     }
-    return (<div className='overflow-y-hidden'>
-        <h3 className='text-4xl text-center mt-10 font-bold'>My Product</h3>
-        <div className="grid grid-cols-1  lg:grid-cols-2 gap-10  my-10 mx-3 md:mx-10 ">
+    return (
+        <>
+            <div className='overflow-y-hidden'>
+                <h3 className='text-4xl text-center mt-10 font-bold'>My Product</h3>
+                <div className="grid grid-cols-1  lg:grid-cols-2 gap-10  my-10 mx-3 md:mx-10 ">
 
-            {
-                products.map((p) => <Card
-                    key={p._id}
+                    {
+                        products.map((p) => <Card
+                            key={p._id}
+                            product={p}
+                            setProductInfo={setProductInfo}
+                            setDeleteAction={setDeleteAction}>
+
+                        </Card>)
+                    }
+                </div>
+            </div>
+            {productInfo &&
+                <ConfirmationModel
+                    closeModal={closeModal}
+                    info={productInfo}
+
+                    deleteAction={deleteAction}
                     handleDelete={handleDelete}
-                    product={p}>
-
-                </Card>)
+                ></ConfirmationModel>
             }
-        </div>
-    </div>
+        </>
     );
 };
 

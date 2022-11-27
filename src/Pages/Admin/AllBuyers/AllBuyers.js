@@ -1,8 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import ConfirmationModel from '../../../Components/ConfirmationModel';
 
 const AllBuyers = () => {
+    const [info, setInfo] = useState(null)
+    const [userDeleteAction, setUserDeleteAction] = useState(false)
+    
+
+
+    const closeModal = () => {
+        setInfo(null)
+    }
+
     const { data: buyers = [], refetch } = useQuery({
         queryKey: ['buyers'],
         queryFn: async () => {
@@ -21,7 +31,7 @@ const AllBuyers = () => {
         }
     })
 
-    const handleDelete = id => {
+    const handleDeleteUser = id => {
         fetch(`http://localhost:5000/buyers/${id}`, {
             method: "DELETE",
             headers: {
@@ -32,9 +42,15 @@ const AllBuyers = () => {
             .then(data => {
                 console.log(data);
                 refetch()
+                setInfo(null)
                 toast.success('Successfully deleted seller')
             })
     }
+    const userDelete = (buyer) => {
+        setInfo(buyer);
+        setUserDeleteAction(true)
+    }
+
     return (
         <div>
 
@@ -72,7 +88,7 @@ const AllBuyers = () => {
                                     {buyer.email}
                                 </td>
                                 <th>
-                                    <button onClick={() => handleDelete(buyer._id)} className="btn btn-accent btn-xs">Delete</button>
+                                <label htmlFor="action-modal" onClick={() => userDelete(buyer)} className="btn btn-accent btn-xs">Delete</label>
                                 </th>
                             </tr>)
                         }
@@ -81,6 +97,17 @@ const AllBuyers = () => {
 
                 </table>
             </div>
+
+            {info &&
+                <ConfirmationModel
+                    closeModal={closeModal}
+                    info={info}
+
+                    userDeleteAction={userDeleteAction}
+                    handleDeleteUser={handleDeleteUser}
+
+                ></ConfirmationModel>
+            }
         </div>
     );
 };

@@ -1,9 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import ConfirmationModel from '../../../Components/ConfirmationModel';
 import Loading from '../../Shared/Loading/Loading';
 
 const AllUser = () => {
+
+    const [info, setInfo] = useState(null)
+    const [userDeleteAction, setUserDeleteAction] = useState(false)
+    const [userMakeAdminAction, setUserMakeAdminAction] = useState(false)
+
+
+    const closeModal = () => {
+        setInfo(null)
+    }
     const { data: users, isLoading, refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
@@ -22,7 +32,7 @@ const AllUser = () => {
         }
     })
 
-    const handlemakeAdmin = id => {
+    const handleMakeAdmin = id => {
         fetch(`http://localhost:5000/users/makeadmin/${id}`, {
             method: 'PUT',
             headers: {
@@ -33,13 +43,14 @@ const AllUser = () => {
             .then(data => {
                 if (data.modifiedCount > 0) {
                     refetch()
+                    setInfo(null)
                     toast.success('Successfully verified seller')
                 }
             })
 
     }
 
-    const handleDelete = id => {
+    const handleDeleteUser = id => {
         fetch(`http://localhost:5000/users/delete/${id}`, {
             method: "DELETE",
             headers: {
@@ -50,9 +61,21 @@ const AllUser = () => {
             .then(data => {
                 console.log(data);
                 refetch()
+                setInfo(null)
                 toast.success('Successfully deleted seller')
             })
     }
+    const userMakeAdmin = (user) => {
+        setInfo(user);
+        setUserDeleteAction(false)
+        setUserMakeAdminAction(true)
+    }
+    const userDelete = (user) => {
+        setInfo(user);
+        setUserMakeAdminAction(false)
+        setUserDeleteAction(true)
+    }
+
     if (isLoading) {
         return <Loading></Loading>
     }
@@ -96,9 +119,9 @@ const AllUser = () => {
                                 </td>
                                 <td className='text-center'>
                                     {user?.role === '' ?
-                                    <button className="btn btn-success text-white btn-xs" >Buyers</button>
-                                    :
-                                    <button className="btn btn-success text-white btn-xs" >{user.role}</button>
+                                        <button className="btn btn-success text-white btn-xs" >Buyers</button>
+                                        :
+                                        <button className="btn btn-success text-white btn-xs" >{user.role}</button>
                                     }
                                 </td>
 
@@ -106,11 +129,11 @@ const AllUser = () => {
                                     {user?.role === 'admin' ?
                                         <button className="btn btn-xs" >Admin</button>
                                         :
-                                        <button onClick={() => handlemakeAdmin(user._id)} className="btn btn-secondary btn-xs">Make Admin</button>
+                                        <label htmlFor="action-modal" onClick={() => userMakeAdmin(user)} className="btn btn-secondary btn-xs">Make Admin</label>
                                     }
                                 </th>
                                 <th className='text-center'>
-                                    <button onClick={() => handleDelete(user._id)} className="btn btn-accent btn-xs">Delete</button>
+                                    <label htmlFor="action-modal" onClick={() => userDelete(user)} className="btn btn-accent btn-xs">Delete</label>
                                 </th>
                             </tr>)
                         }
@@ -119,6 +142,19 @@ const AllUser = () => {
 
                 </table>
             </div>
+            {info &&
+                <ConfirmationModel
+                    closeModal={closeModal}
+                    info={info}
+
+                    userMakeAdminAction={userMakeAdminAction}
+                    handleMakeAdmin={handleMakeAdmin}
+
+                    userDeleteAction={userDeleteAction}
+                    handleDeleteUser={handleDeleteUser}
+
+                ></ConfirmationModel>
+            }
         </div>
     );
 };
