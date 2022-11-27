@@ -13,6 +13,7 @@ import DisplayError from "../../Pages/Shared/Error/DisplayError";
 import Categories from "../../Pages/Categories.js/Categories";
 import ReportedItems from "../../Pages/Admin/ReportedItems/ReportedItems";
 import AllProducts from "../../Pages/AllProducts/AllProduct";
+import AllUser from "../../Pages/Admin/AllUsers/AlUsers";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main");
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard/reporteditems',
                 element: <AdminRoute><ReportedItems></ReportedItems></AdminRoute>
+            },
+            {
+                path: '/dashboard/alluser',
+                element: <AdminRoute><AllUser></AllUser></AdminRoute>
             },
 
 

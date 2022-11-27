@@ -64,7 +64,7 @@ const Header = () => {
                             :
                             <Link className="btn btn-primary text-gray-50" to='/login'>Login</Link>
                     }
-                     <label htmlFor="my-drawer-2" className="btn btn-ghost drawer-button lg:hidden text-left text-gray-500  text-4xl p-0 m-0"><TbLayoutSidebarRightCollapse /> </label>
+                    
                 </div>
             </div>
         </div>

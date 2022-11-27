@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { TbLayoutSidebarRightCollapse } from 'react-icons/tb';
 import { Link, useLoaderData } from 'react-router-dom';
 import Card from '../../Components/Card';
 import Loading from '../Shared/Loading/Loading';
@@ -73,12 +74,12 @@ const Categories = () => {
     return (
         <div>
             <div className="drawer drawer-mobile">
-                <input id="my-drawer-2" type="checkbox" className="drawer-toggle " />
+                <input id="category-drawer" type="checkbox" className="drawer-toggle " />
                 <div className="drawer-content  ">
 
-                    <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">Select Category</label>
+                   
                     <h3 className='text-3xl md:text-5xl text-center mt-10 font-bold'>Category Name </h3>
-                    <div className='grid gap-10 m-10 grid-cols-1 md:grid-cols-2 text-center '>
+                    <div className='grid grid-cols-1 md:grid-cols-2 text-center gap-10  my-10 mx-3 md:mx-10 '>
 
                         {
                             products.map((p) => <Card
@@ -94,9 +95,9 @@ const Categories = () => {
                     </div>
                 </div>
                 <div className="drawer-side">
-                    <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-                    <ul className="menu p-4 w-80 bg-base-400 text-base-content">
-
+                    <label htmlFor="category-drawer" className="drawer-overlay"></label>
+                    <div className=" p-4 w-80 bg-gray-100 text-base-content">
+                    <label htmlFor="category-drawer" className=" drawer-button lg:hidden text-left text-primary pl-7 m-0  rounded-xl bg-gray-100 absolute top-[40%]   -right-16 "><TbLayoutSidebarRightCollapse className='text-6xl rounded-xl rounded-l-none shadow-l shadow-xl' /></label>
                         <div className='grid gap-5  grid-cols-1 text-center'>
                             {
                                 categories.map(category =>
@@ -111,7 +112,7 @@ const Categories = () => {
                             }
 
                         </div>
-                    </ul>
+                    </div>
 
                 </div>
             </div>

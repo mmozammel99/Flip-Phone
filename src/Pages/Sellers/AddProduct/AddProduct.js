@@ -124,26 +124,26 @@ const AddProduct = () => {
                                 {errors.marketPrice && <p role="alert">{errors.marketPrice?.message}</p>}
                             </div>
                             <div className="col-span-full sm:col-span-3">
-                                <label className="text-sm">Selling Price</label>
+                                <label className="text-sm">Reselling Price</label>
                                 <input id="sellingPrice" type="number" className="w-full rounded-md 
                                 border-0 focus:ring p-3 focus:ring-opacity-75 focus:ring-green-600 border-gray-300 text-gray-900"{...register("sellingPrice",
-                                    { required: "Selling Price is required" }
+                                    { required: "Reselling Price is required" }
                                 )} placeholder="Selling Price" />
                                 {errors.SellingPrice && <p role="alert">{errors.SellingPrice?.message}</p>}
                             </div>
                             <div className="col-span-full sm:col-span-3">
-                                <label className="text-sm">Year of purchase</label>
+                                <label className="text-sm">Purchase Date </label>
                                 <input id="purchaseYear" type="date" className="w-full rounded-md 
                                 border-0 focus:ring p-3 focus:ring-opacity-75 focus:ring-green-600 border-gray-300 text-gray-900" {...register("purchaseYear",
-                                    { required: "Purchase Year is required" }
+                                    { required: "Purchase Date required" }
                                 )} />
                                 {errors.purchaseYear && <p role="alert">{errors.purchaseYear?.message}</p>}
                             </div>
                             <div className="col-span-full sm:col-span-3">
-                                <label className="text-sm">Area</label>
+                                <label className="text-sm">Location</label>
                                 <select className="w-full rounded-md 
                                 border-0 focus:ring p-3 focus:ring-opacity-75 focus:ring-green-600 border-gray-300 text-gray-900" {...register("area",
-                                    { required: "Area is required" }
+                                    { required: "Location is required" }
                                 )}>
 
                                     <option disabled selected>Select your Area</option>
