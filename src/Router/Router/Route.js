@@ -16,6 +16,7 @@ import AllProducts from "../../Pages/AllProducts/AllProduct";
 import MyOrder from "../../Pages/MyOrder/MyOrder";
 import AllUser from "../../Pages/Admin/AllUsers/AlUsers";
 import Payment from "../../Pages/MyOrder/Payment";
+import PaymentComplete from "../../Pages/MyOrder/PaymentComplete";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main");
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
     {
         path: '/*',
         element: <PageNotFount></PageNotFount>
+    },
+    {
+        path: '/paymentcomplete',
+        element: <PaymentComplete></PaymentComplete>
     }
 
 ])
