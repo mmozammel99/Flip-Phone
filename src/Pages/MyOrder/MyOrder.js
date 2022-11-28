@@ -5,10 +5,10 @@ import { AuthContext } from '../../AuthCoxtext/AuthProvider';
 import Loading from '../Shared/Loading/Loading';
 
 
-const AllSeller = () => {
+const MyOrder = () => {
     const { user } = useContext(AuthContext)
 
-    const { data: booking, isLoading, refetch } = useQuery({
+    const { data: booking, isLoading } = useQuery({
         queryKey: ['booking', user?.email],
         queryFn: async () => {
             try {
@@ -43,6 +43,7 @@ const AllSeller = () => {
                             <th>Name</th>
                             <th>Price</th>
                             <th>Make Payment</th>
+                            <th>Transaction Id</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -73,7 +74,13 @@ const AllSeller = () => {
                                         <Link to={`/dashboard/payment/${book._id}`} className="btn btn-secondary btn-xs">Make Payment</Link>
                                     }
                                 </th>
-                               
+                                <th>
+                                    {book?.transactionId &&
+                                        <button className="btn btn-primary btn-xs" >{book.transactionId}</button>
+
+                                    }
+                                </th>
+
                             </tr>)
                         }
 
@@ -85,4 +92,4 @@ const AllSeller = () => {
     );
 };
 
-export default AllSeller;
+export default MyOrder;

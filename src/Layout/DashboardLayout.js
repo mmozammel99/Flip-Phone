@@ -4,9 +4,10 @@ import Header from '../Pages/Shared/Header';
 import { RiDashboard3Line, RiShoppingCart2Line, RiAddCircleLine } from "react-icons/ri";
 import { BsShop } from "react-icons/bs";
 import { FiShoppingBag } from "react-icons/fi";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import { GrUserManager } from "react-icons/gr";
 import { HiOutlineUserGroup, HiOutlineUsers } from "react-icons/hi";
-import { MdOutlineReport } from "react-icons/md";
+import { MdOutlineReport,MdSell } from "react-icons/md";
 import useAdmin from '../Hooks/useAdmin';
 import useSeller from '../Hooks/useSeller';
 import { AuthContext } from '../AuthCoxtext/AuthProvider';
@@ -76,6 +77,8 @@ const DashboardLayout = () => {
                                     <span>Add Product</span></Link></li>
                                 <li><Link to='/dashboard/myproduct' className="flex items-center p-2 space-x-3 rounded-md"><BsShop />
                                     <span>My Products</span> </Link></li>
+                                <li><Link to='/dashboard/mysell' className="flex items-center p-2 space-x-3 rounded-md"><MdSell />
+                                    <span>My Sell</span></Link></li>
                                 {/* <li><Link>My buyers</Link></li> */}
                             </>
                         }
@@ -90,6 +93,8 @@ const DashboardLayout = () => {
                                     </Link>
                                 </li> */}
 
+                                <li><Link to='/dashboard/allsell' className="flex items-center p-2 space-x-3 rounded-md"><AiOutlineShoppingCart />
+                                    <span>All Sell</span></Link></li>
                                 <li><Link to='/dashboard/alluser' className="flex items-center p-2 space-x-3 rounded-md"><HiOutlineUserGroup />
                                     <span>All User</span></Link></li>
                                 <li><Link to='/dashboard/allseller' className="flex items-center p-2 space-x-3 rounded-md"><GrUserManager />

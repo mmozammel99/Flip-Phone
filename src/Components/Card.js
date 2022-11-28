@@ -4,7 +4,7 @@ import { MdReport } from "react-icons/md";
 import { AuthContext } from '../AuthCoxtext/AuthProvider';
 import useAdmin from '../Hooks/useAdmin';
 import useSeller from '../Hooks/useSeller';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CardLoader from './CardLoader';
 import useVerify from '../Hooks/useVerify';
 import { GoVerified } from "react-icons/go";
@@ -17,7 +17,7 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
     const [isAdmin, isAdminLoading] = useAdmin(user?.email)
     const [isSellerOrAdmin, isSellerOrAdminLoading] = useSeller(user?.email)
     const [bookingInfo, setBookingInfo] = useState(null)
-    const [CardBookingLoader, setCardBookingLoader] = useState(false)
+  const navigate= useNavigate()
 
     const {
         productName,
@@ -35,7 +35,8 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
         postTime,
         _id,
         advertisement,
-        sold
+        sold,
+        booking
     } = product;
 
     const [isVerify, isVerifyLoading] = useVerify(sellerEmail)
@@ -85,8 +86,7 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
         setBookingInfo(info)
     }
     const handleAddBooking = event => {
-        // setLoading(true)
-        setCardBookingLoader(true)
+
         event.preventDefault()
         const buyerNumber = event.target.buyerNumber.value
         const meetingLocation = event.target.meetingLocation.value
@@ -97,11 +97,9 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
             meetingLocation,
             productName,
             price: sellingPrice,
-            bookingId:_id,
+            productId:_id,
             productImg,
-            email:user?.email,
             sellerEmail,
-            description
         }
         fetch(`http://localhost:5000/booking`, {
             method: 'POST',
@@ -113,11 +111,9 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
         })
             .then(res => res.json())
             .then(data => {
-                if (data.modifiedCount > 0) {
-                    setBookingInfo(null)
-                    setLoading(false)
-                    refetch()
-                    setCardBookingLoader(false)
+                console.log(data);
+                if (data.acknowledged) {
+                    navigate('/dashboard/myorder')
                     toast.success('Product is Booked')
                 }
             })
@@ -131,7 +127,7 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
     }
 
     const time = moment(postTime).format('LL')
-    if (isSellerOrAdminLoading || isAdminLoading || isVerifyLoading ||CardBookingLoader) {
+    if (isSellerOrAdminLoading || isAdminLoading || isVerifyLoading ) {
         return <CardLoader></CardLoader>
     }
     return (
@@ -143,6 +139,11 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
                 {!sold &&
                     <span className="absolute top-32 shadow-2xl  w-36 left-0 px-5 py-1 text-xs font-medium tracking-wider text-center uppercase  text-white bg-primary">Available  </span>
                 }
+                
+                {!sold && booking&&
+                    <span className="absolute top-48 shadow-2xl  w-36 left-0 px-5 py-1 text-xs font-medium tracking-wider text-center uppercase  text-white bg-info">Booked  </span>
+                }
+                
                 {sold &&
                     <span className="absolute top-72 shadow-2xl  w-full left-0 px-5 py-1 text-2xl font-medium tracking-wider text-center uppercase  text-white bg-black">Sold</span>
                 }

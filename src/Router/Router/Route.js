@@ -17,6 +17,8 @@ import MyOrder from "../../Pages/MyOrder/MyOrder";
 import AllUser from "../../Pages/Admin/AllUsers/AlUsers";
 import Payment from "../../Pages/MyOrder/Payment";
 import PaymentComplete from "../../Pages/MyOrder/PaymentComplete";
+import AllSelling from "../../Pages/Admin/AllSelling/AllSelling";
+import MySelling from "../../Pages/Sellers/MySelling/MySelling";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main");
@@ -85,6 +87,10 @@ const router = createBrowserRouter([
                 path: '/dashboard/alluser',
                 element: <AdminRoute><AllUser></AllUser></AdminRoute>
             },
+            {
+                path: '/dashboard/allsell',
+                element: <AdminRoute><AllSelling></AllSelling></AdminRoute>
+            },
 
 
             // seller
@@ -96,6 +102,11 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard/myproduct',
                 element: <SellerRoute><MyProduct></MyProduct></SellerRoute>
+            },
+            
+            {
+                path: '/dashboard/mysell',
+                element: <SellerRoute><MySelling></MySelling></SellerRoute>
             },
             
         ]
