@@ -19,6 +19,7 @@ import Payment from "../../Pages/MyOrder/Payment";
 import PaymentComplete from "../../Pages/MyOrder/PaymentComplete";
 import AllSelling from "../../Pages/Admin/AllSelling/AllSelling";
 import MySelling from "../../Pages/Sellers/MySelling/MySelling";
+import Blog from "../../Pages/Blog/Blog";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main");
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
             {
                 path: '/signup',
                 element: <Signup></Signup>
+            },
+            {
+                path: '/blog',
+                element: <Blog></Blog>
             },
             {
                 path: '/categories/:id',
