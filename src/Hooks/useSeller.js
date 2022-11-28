@@ -5,7 +5,7 @@ const useSeller = email => {
     const [isSellerOrAdminLoading, setIsSellerOrAdminLoading] = useState(true)
     useEffect(() => {
         if (email) {
-            fetch(`http://localhost:5000/users/seller/${email}`)
+            fetch(`https://resell-one.vercel.app/users/seller/${email}`)
                 .then(res => res.json())
                 .then(data => {
                     setIsSellerOrAdmin(data.isSellerOrAdmin)

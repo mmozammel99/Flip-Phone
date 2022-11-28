@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { TbLayoutSidebarRightCollapse } from 'react-icons/tb';
 import { Link } from 'react-router-dom';
 import logo from '../../Assets/logo.png';
 import { AuthContext } from '../../AuthCoxtext/AuthProvider';
@@ -38,7 +37,7 @@ const Header = () => {
                     </div>
                     <Link className="btn btn-ghost" to='/'><img src={logo} alt="" className='w-52' /></Link>
                 </div>
-                <div className="navbar-center hidden lg:flex">
+                <div className="navbar-center font-semibold hidden lg:flex">
                     <ul className="menu menu-horizontal p-0">
                         {menuItems}
                     </ul>

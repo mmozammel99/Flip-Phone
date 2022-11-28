@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { AuthContext } from '../../../AuthCoxtext/AuthProvider';
 import Card from '../../../Components/Card';
 import ConfirmationModel from '../../../Components/ConfirmationModel';
+import useTitle from '../../../Hooks/useTitle';
 import Loading from '../../Shared/Loading/Loading';
 
 const MyProduct = () => {
@@ -13,12 +14,13 @@ const MyProduct = () => {
     const [deleteAction, setDeleteAction] = useState(false)
     const [advertiseAction, setAdvertiseAction] = useState(false)
 
+    useTitle('My Product')
 
     const closeModal = () => {
         setProductInfo(null)
     }
 
-    const url = `http://localhost:5000/product?email=${user?.email}`
+    const url = `https://resell-one.vercel.app/product?email=${user?.email}`
     const { data: products, isLoading, refetch } = useQuery({
         queryKey: ['products', user?.email],
         queryFn: async () => {
@@ -38,7 +40,7 @@ const MyProduct = () => {
     })
 
     const handleAdvertise = id => {
-        fetch(`http://localhost:5000/product/${id}`, {
+        fetch(`https://resell-one.vercel.app/product/${id}`, {
             method: 'PUT',
             headers: {
                 authorization: `bearer ${localStorage.getItem('geniusToken')}`
@@ -49,7 +51,7 @@ const MyProduct = () => {
                 console.log(data);
                 if (data.modifiedCount > 0) {
                     refetch()
-                setProductInfo(null)
+                    setProductInfo(null)
                     toast.success('Successfully Advertise product')
                 }
             })
@@ -57,7 +59,7 @@ const MyProduct = () => {
     }
     // console.log(products);
     const handleDelete = id => {
-        fetch(`http://localhost:5000/product/${id}`, {
+        fetch(`https://resell-one.vercel.app/product/${id}`, {
             method: "DELETE",
             headers: {
                 authorization: `bearer ${localStorage.getItem('geniusToken')}`
@@ -65,7 +67,7 @@ const MyProduct = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 refetch()
                 setProductInfo(null)
                 toast.success('Successfully deleted product')

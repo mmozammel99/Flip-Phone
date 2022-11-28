@@ -14,7 +14,7 @@ const HomeAdvertised = ({ products, refetch }) => {
     }
 
     const handleReport = id => {
-        fetch(`http://localhost:5000/report/${id}`, {
+        fetch(`https://resell-one.vercel.app/report/${id}`, {
             method: 'PUT',
 
         })
@@ -29,7 +29,7 @@ const HomeAdvertised = ({ products, refetch }) => {
     }
     // console.log(products);
     const handleDelete = id => {
-        fetch(`http://localhost:5000/product/${id}`, {
+        fetch(`https://resell-one.vercel.app/product/${id}`, {
             method: "DELETE",
             headers: {
                 authorization: `bearer ${localStorage.getItem('geniusToken')}`

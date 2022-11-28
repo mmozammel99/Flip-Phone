@@ -12,12 +12,12 @@ import BookNowModal from './BookNowModal';
 import toast from 'react-hot-toast';
 
 
-const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, setReportAction, refetch ,setLoading}) => {
+const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, setReportAction, refetch, setLoading }) => {
     const { user } = useContext(AuthContext)
     const [isAdmin, isAdminLoading] = useAdmin(user?.email)
     const [isSellerOrAdmin, isSellerOrAdminLoading] = useSeller(user?.email)
     const [bookingInfo, setBookingInfo] = useState(null)
-  const navigate= useNavigate()
+    const navigate = useNavigate()
 
     const {
         productName,
@@ -74,6 +74,8 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
         setReportAction(true)
 
     }
+
+    // bookibg
     const handleOpenBookingModal = () => {
 
         const info = {
@@ -97,11 +99,11 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
             meetingLocation,
             productName,
             price: sellingPrice,
-            productId:_id,
+            productId: _id,
             productImg,
             sellerEmail,
         }
-        fetch(`http://localhost:5000/booking`, {
+        fetch(`https://resell-one.vercel.app/booking`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -111,7 +113,7 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 if (data.acknowledged) {
                     navigate('/dashboard/myorder')
                     toast.success('Product is Booked')
@@ -119,7 +121,7 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
             })
 
 
-        console.log(buyerNumber, meetingLocation);
+        // console.log(buyerNumber, meetingLocation);
         setBookingInfo(null)
     }
     const handleModalClose = () => {
@@ -127,7 +129,7 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
     }
 
     const time = moment(postTime).format('LL')
-    if (isSellerOrAdminLoading || isAdminLoading || isVerifyLoading ) {
+    if (isSellerOrAdminLoading || isAdminLoading || isVerifyLoading) {
         return <CardLoader></CardLoader>
     }
     return (
@@ -139,14 +141,15 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
                 {!sold &&
                     <span className="absolute top-32 shadow-2xl  w-36 left-0 px-5 py-1 text-xs font-medium tracking-wider text-center uppercase  text-white bg-primary">Available  </span>
                 }
-                
-                {!sold && booking&&
+
+                {!sold && booking &&
                     <span className="absolute top-48 shadow-2xl  w-36 left-0 px-5 py-1 text-xs font-medium tracking-wider text-center uppercase  text-white bg-info">Booked  </span>
                 }
-                
+
                 {sold &&
                     <span className="absolute top-72 shadow-2xl  w-full left-0 px-5 py-1 text-2xl font-medium tracking-wider text-center uppercase  text-white bg-black">Sold</span>
                 }
+
                 <div className='flex justify-between items-center p-2 md:p-6'>
                     <div className="flex justify-center items-center space-x-4">
                         <img alt="" src={sellerImg} className="object-cover w-12 h-12 rounded-full shadow bg-gray-500" />
@@ -174,6 +177,7 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
                         }
                     </div>
                 </div>
+
                 <figure className="px-5 pt-5"><img src={productImg} alt="Album" className='h-80 rounded-lg' /></figure>
                 <div className="card-body items-center text-center text-sm font-semibold">
                     <h2 className="card-title">{productName}</h2>
@@ -215,7 +219,8 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
                     </div>
                 </div>
             </div>
-            {bookingInfo &&
+            {
+                bookingInfo &&
                 <BookNowModal
                     bookingModalInfo={bookingInfo}
                     handleAddBooking={handleAddBooking}

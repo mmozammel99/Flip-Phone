@@ -1,12 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useContext } from 'react';
 import { AuthContext } from '../../../AuthCoxtext/AuthProvider';
+import useTitle from '../../../Hooks/useTitle';
 import Loading from '../../Shared/Loading/Loading';
 
 const MySelling = () => {
-    const { user ,loading } = useContext(AuthContext)
-
-    const url = `http://localhost:5000/mysell?email=${user?.email}`
+    const { user, loading } = useContext(AuthContext)
+    useTitle('My Sell')
+    const url = `https://resell-one.vercel.app/mysell?email=${user?.email}`
     const { data: products, isLoading } = useQuery({
         queryKey: ['products', user?.email],
         queryFn: async () => {
@@ -25,8 +26,8 @@ const MySelling = () => {
         }
     })
 
-console.log(user?.email);
-    if (isLoading||loading) {
+    // console.log(user?.email);
+    if (isLoading || loading) {
         return <Loading></Loading>
     }
     return (

@@ -10,11 +10,13 @@ const CheckoutForm = ({ product }) => {
   const [processing, setProcessing] = useState(false)
   const [transactionId, setTransactionId] = useState('')
   const [clientSecret, setClientSecret] = useState("");
-  const { price, productName, email, _id ,productId} = product
-const navigate = useNavigate()
+  const { price, productName, email, _id, productId } = product
+  const navigate = useNavigate()
+
+
+
   useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
-    fetch("http://localhost:5000/create-payment-intent", {
+    fetch("https://resell-one.vercel.app/create-payment-intent", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +49,7 @@ const navigate = useNavigate()
       // console.log(error);
       toast.error(error.message)
     }
-    
+
     setSuccess('')
     setProcessing(true)
     const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
@@ -56,7 +58,7 @@ const navigate = useNavigate()
         payment_method: {
           card: card,
           billing_details: {
-            name:  productName,
+            name: productName,
             email: email
           },
         },
@@ -77,7 +79,7 @@ const navigate = useNavigate()
 
 
       }
-      fetch('http://localhost:5000/payments', {
+      fetch('https://resell-one.vercel.app/payments', {
         method: 'POST',
         headers: {
           'content-type': "application/json",
@@ -116,13 +118,13 @@ const navigate = useNavigate()
             },
           }}
         />
-       
-          <button className={`btn mt-5 ${!stripe || !clientSecret || processing ? "loading" : ""}`}
+
+        <button className={`btn mt-5 ${!stripe || !clientSecret || processing ? "loading" : ""}`}
           type="submit"
           disabled={!stripe || !clientSecret || processing}>
           Pay
         </button>
-      
+
       </form>
       {success && <>
         <h3>Your TransactionId is <span className='font-bold'>{transactionId}</span></h3>

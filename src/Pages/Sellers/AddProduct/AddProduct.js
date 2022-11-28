@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { GoVerified } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../AuthCoxtext/AuthProvider';
+import useTitle from '../../../Hooks/useTitle';
 import useVerify from '../../../Hooks/useVerify';
 import Loading from '../../Shared/Loading/Loading'
 
@@ -17,10 +18,12 @@ const AddProduct = () => {
     const navigate = useNavigate()
     const imageHostKey = process.env.REACT_APP_imgbb_Key;
 
+    useTitle('Add Product')
+
     useEffect(() => {
 
         axios
-            .get("http://localhost:5000/categories")
+            .get("https://resell-one.vercel.app/categories")
             .then(data => setCategories(data.data))
             .catch(error => console.log(error));
     }, [])
@@ -71,15 +74,16 @@ const AddProduct = () => {
                         sellerImg: user.photoURL,
                         sellerPhone: data.phone,
                         postTime,
-                        productStatus:'Available'
+                        productStatus: 'Available'
 
                     }
                     productSaveInDb(productInfo)
                 }
             })
     }
+
     const productSaveInDb = (productInfo) => {
-        fetch('http://localhost:5000/addproduct', {
+        fetch('https://resell-one.vercel.app/addproduct', {
             method: "POST",
             headers: {
                 'content-type': 'application/json',
@@ -95,9 +99,11 @@ const AddProduct = () => {
                 navigate('/dashboard/myproduct')
             })
     }
+
     if (isLoading || isVerifyLoading) {
         return <Loading></Loading>
     }
+
     return (
         <div>
             <section className="p-6 bg-gray-100 text-gray-900">
@@ -245,7 +251,7 @@ const AddProduct = () => {
                                     <div className="w-10 rounded-full ">
                                         {
                                             isVerify &&
-                                                 <GoVerified className='text-info absolute w-4 h-4' />
+                                            <GoVerified className='text-info absolute w-4 h-4' />
                                         }
                                         <img src={user?.photoURL} alt='' />
                                     </div>

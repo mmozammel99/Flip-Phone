@@ -6,6 +6,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { useLoaderData, useNavigation } from 'react-router-dom';
 import CheckoutForm from './CheckoutForm';
 import Loading from '../Shared/Loading/Loading';
+import useTitle from '../../Hooks/useTitle';
 
 const stripePromise = loadStripe('pk_test_51M6wK5Flny3mXeIa6jKAO6UrumN3zucIXIp4aL6PrchI33Mk2u4yBvMVdUebvZeGaoy8Dj5kuahOzfwXon5hsUfZ001il6UQ0H')
 
@@ -14,7 +15,10 @@ const Payment = () => {
     const { user } = useContext(AuthContext);
     const product = useLoaderData()
     const navigation = useNavigation()
-    const { productName, meetingLocation, productImg, description, price } = product
+    const { productName, meetingLocation, productImg, description, price } = product;
+
+    useTitle('Payment')
+
     if (navigation.state === "loading") {
         return <Loading></Loading>
     }

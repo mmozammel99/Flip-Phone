@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
+import useTitle from '../../../Hooks/useTitle';
 import Loading from '../../Shared/Loading/Loading';
 
 const AllSelling = () => {
@@ -8,7 +9,7 @@ const AllSelling = () => {
         queryKey: ['products'],
         queryFn: async () => {
             try {
-                const res = await fetch('http://localhost:5000/allselling')
+                const res = await fetch('https://resell-one.vercel.app/allselling')
                 const data = await res.json()
                 return data
             }
@@ -17,6 +18,9 @@ const AllSelling = () => {
             }
         }
     })
+
+    useTitle('All Sell')
+
     if (isLoading) {
         return <Loading></Loading>
     }

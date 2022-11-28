@@ -45,7 +45,7 @@ const router = createBrowserRouter([
             {
                 path: '/categories/:id',
                 element: <Categories></Categories>,
-                loader: ({ params }) => fetch(`http://localhost:5000/categories/${params.id}`)
+                loader: ({ params }) => fetch(`https://resell-one.vercel.app/categories/${params.id}`)
             },
 
         ]
@@ -67,7 +67,7 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard/payment/:id',
                 element: <Payment></Payment>,
-                loader: ({ params }) => fetch(`http://localhost:5000/makepayment/${params.id}`)
+                loader: ({ params }) => fetch(`https://resell-one.vercel.app/makepayment/${params.id}`)
             },
 
             // admin
@@ -103,12 +103,12 @@ const router = createBrowserRouter([
                 path: '/dashboard/myproduct',
                 element: <SellerRoute><MyProduct></MyProduct></SellerRoute>
             },
-            
+
             {
                 path: '/dashboard/mysell',
                 element: <SellerRoute><MySelling></MySelling></SellerRoute>
             },
-            
+
         ]
     },
 

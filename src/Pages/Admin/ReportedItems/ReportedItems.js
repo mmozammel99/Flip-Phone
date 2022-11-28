@@ -3,17 +3,20 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import Card from '../../../Components/Card';
 import ConfirmationModel from '../../../Components/ConfirmationModel';
+import useTitle from '../../../Hooks/useTitle';
 import Loading from '../../Shared/Loading/Loading';
 
 const ReportedItems = () => {
     const [productInfo, setProductInfo] = useState(null)
     const [deleteAction, setDeleteAction] = useState(false)
 
+    useTitle('Reported Items')
+
     const closeModal = () => {
         setProductInfo(null)
     }
 
-    const url = `http://localhost:5000/report`
+    const url = `https://resell-one.vercel.app/report`
     const { data: products, isLoading, refetch } = useQuery({
         queryKey: ['products',],
         queryFn: async () => {
@@ -32,9 +35,9 @@ const ReportedItems = () => {
         }
     })
 
-    console.log(products);
+    // console.log(products);
     const handleDelete = id => {
-        fetch(`http://localhost:5000/report/${id}`, {
+        fetch(`https://resell-one.vercel.app/report/${id}`, {
             method: "DELETE",
             headers: {
                 authorization: `bearer ${localStorage.getItem('geniusToken')}`
@@ -42,7 +45,7 @@ const ReportedItems = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 refetch()
                 setProductInfo(null)
                 toast.success('Successfully deleted product')

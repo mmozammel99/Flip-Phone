@@ -1,8 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import img1 from '../../../Assets/banner/banner1.png'
 import img2 from '../../../Assets/banner/banner2.png'
 import img3 from '../../../Assets/banner/banner3.png'
 import img4 from '../../../Assets/banner/banner4.png'
+
 const HomeTopBanner = () => {
     return (
         <div className="carousel w-full my-10">
@@ -12,7 +14,7 @@ const HomeTopBanner = () => {
                         <img src={img1} className="w-1/2" alt="" />
                         <div className='text-center'>
                             <p className="text-2xl md:text-4xl  lg:text-left font-bold py-6">This is the best place for buy or sell your used smartphone</p>
-                            <button className="btn btn-primary mx-auto">Get Started</button>
+                            <Link to='/' className="btn btn-primary mx-auto">Get Started</Link>
                         </div>
                     </div>
                 </div>
@@ -27,7 +29,7 @@ const HomeTopBanner = () => {
                         <img src={img2} className="w-1/2 p-5" alt="" />
                         <div className='text-center'>
                             <p className="text-2xl md:text-4xl font-bold py-6">This is the best place for buy or sell your used smartphone</p>
-                            <button className="btn btn-primary">Get Started</button>
+                            <Link to='/' className="btn btn-primary">Get Started</Link>
                         </div>
                     </div>
                 </div>
@@ -42,7 +44,7 @@ const HomeTopBanner = () => {
                         <img src={img3} className="w-1/2" alt="" />
                         <div className='text-center'>
                             <p className="text-2xl md:text-4xl font-bold py-6">This is the best place for buy or sell your used smartphone</p>
-                            <button className="btn btn-primary">Get Started</button>
+                            <Link to='/' className="btn btn-primary">Get Started</Link>
                         </div>
                     </div>
                 </div>
@@ -57,7 +59,7 @@ const HomeTopBanner = () => {
                         <img src={img4} className="w-1/2 lg:p-12" alt="" />
                         <div className='text-center'>
                             <p className="text-2xl md:text-4xl font-bold py-6">This is the best place for buy or sell your used smartphone</p>
-                            <button className="btn btn-primary">Get Started</button>
+                            <Link to='/' className="btn btn-primary">Get Started</Link>
                         </div>
                     </div>
                 </div>

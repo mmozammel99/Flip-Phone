@@ -2,17 +2,18 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../AuthCoxtext/AuthProvider';
+import useTitle from '../../Hooks/useTitle';
 import Loading from '../Shared/Loading/Loading';
 
 
 const MyOrder = () => {
     const { user } = useContext(AuthContext)
-
+    useTitle('My Order')
     const { data: booking, isLoading } = useQuery({
         queryKey: ['booking', user?.email],
         queryFn: async () => {
             try {
-                const res = await fetch(`http://localhost:5000/booking/myproduct?email=${user?.email}`, {
+                const res = await fetch(`https://resell-one.vercel.app/booking/myproduct?email=${user?.email}`, {
                     headers: {
                         authorization: `bearer ${localStorage.getItem('geniusToken')}`
                     }

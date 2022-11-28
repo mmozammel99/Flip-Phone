@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { AuthContext } from '../../AuthCoxtext/AuthProvider';
 import Card from '../../Components/Card';
 import ConfirmationModel from '../../Components/ConfirmationModel';
+import useTitle from '../../Hooks/useTitle';
 import Loading from '../Shared/Loading/Loading';
 
 const AllProducts = () => {
@@ -14,6 +15,7 @@ const AllProducts = () => {
     const [advertiseAction, setAdvertiseAction] = useState(false)
     const [reportAction, setReportAction] = useState(false)
 
+    useTitle('All Products')
 
     const closeModal = () => {
         setProductInfo(null)
@@ -23,7 +25,7 @@ const AllProducts = () => {
         queryKey: ['products'],
         queryFn: async () => {
             try {
-                const res = await fetch('http://localhost:5000/allproducts', {
+                const res = await fetch('https://resell-one.vercel.app/allproducts', {
                     headers: {
                         authorization: `bearer ${localStorage.getItem('geniusToken')}`
                     }
@@ -38,7 +40,7 @@ const AllProducts = () => {
     })
 
     const handleAdvertise = id => {
-        fetch(`http://localhost:5000/product/${id}`, {
+        fetch(`https://resell-one.vercel.app/product/${id}`, {
             method: 'PUT',
             headers: {
                 authorization: `bearer ${localStorage.getItem('geniusToken')}`
@@ -46,7 +48,7 @@ const AllProducts = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 if (data.modifiedCount > 0) {
                     refetch()
                     setProductInfo(null)
@@ -57,7 +59,7 @@ const AllProducts = () => {
     }
     const handleReport = id => {
 
-        fetch(`http://localhost:5000/report/${id}`, {
+        fetch(`https://resell-one.vercel.app/report/${id}`, {
             method: 'PUT',
 
         })
@@ -70,9 +72,9 @@ const AllProducts = () => {
             })
 
     }
-    // console.log(products);
+
     const handleDelete = id => {
-        fetch(`http://localhost:5000/product/${id}`, {
+        fetch(`https://resell-one.vercel.app/product/${id}`, {
             method: "DELETE",
             headers: {
                 authorization: `bearer ${localStorage.getItem('geniusToken')}`
@@ -80,15 +82,17 @@ const AllProducts = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 refetch()
                 setProductInfo(null)
                 toast.success('Successfully deleted product')
             })
     }
+
     if (isLoading || loading) {
         return <Loading></Loading>
     }
+
     return (
         <>
             <div className='overflow-y-hidden'>

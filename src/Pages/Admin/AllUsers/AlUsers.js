@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import ConfirmationModel from '../../../Components/ConfirmationModel';
+import useTitle from '../../../Hooks/useTitle';
 import Loading from '../../Shared/Loading/Loading';
 
 const AllUser = () => {
@@ -10,15 +11,17 @@ const AllUser = () => {
     const [userDeleteAction, setUserDeleteAction] = useState(false)
     const [userMakeAdminAction, setUserMakeAdminAction] = useState(false)
 
+    useTitle('All User')
 
     const closeModal = () => {
         setInfo(null)
     }
+
     const { data: users, isLoading, refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
             try {
-                const res = await fetch('http://localhost:5000/users', {
+                const res = await fetch('https://resell-one.vercel.app/users', {
                     headers: {
                         authorization: `bearer ${localStorage.getItem('geniusToken')}`
                     }
@@ -33,7 +36,7 @@ const AllUser = () => {
     })
 
     const handleMakeAdmin = id => {
-        fetch(`http://localhost:5000/users/makeadmin/${id}`, {
+        fetch(`https://resell-one.vercel.app/users/makeadmin/${id}`, {
             method: 'PUT',
             headers: {
                 authorization: `bearer ${localStorage.getItem('geniusToken')}`
@@ -51,7 +54,7 @@ const AllUser = () => {
     }
 
     const handleDeleteUser = id => {
-        fetch(`http://localhost:5000/users/delete/${id}`, {
+        fetch(`https://resell-one.vercel.app/users/delete/${id}`, {
             method: "DELETE",
             headers: {
                 authorization: `bearer ${localStorage.getItem('geniusToken')}`
@@ -59,7 +62,7 @@ const AllUser = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 refetch()
                 setInfo(null)
                 toast.success('Successfully deleted seller')

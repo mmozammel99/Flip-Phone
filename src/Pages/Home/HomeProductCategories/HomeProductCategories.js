@@ -7,7 +7,7 @@ const HomeProductCategories = () => {
     useEffect(() => {
 
         axios
-            .get("http://localhost:5000/categories")
+            .get("https://resell-one.vercel.app/categories")
             .then(data => setCategories(data.data))
             .catch(error => console.log(error));
     }, [])

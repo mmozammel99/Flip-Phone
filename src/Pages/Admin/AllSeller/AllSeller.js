@@ -2,12 +2,14 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import ConfirmationModel from '../../../Components/ConfirmationModel';
+import useTitle from '../../../Hooks/useTitle';
 import Loading from '../../Shared/Loading/Loading';
 
 const AllSeller = () => {
     const [info, setInfo] = useState(null)
     const [userDeleteAction, setUserDeleteAction] = useState(false)
     const [sellerVerifyAction, setSellerVerifyAction] = useState(false)
+    useTitle('All Seller')
     const closeModal = () => {
         setInfo(null)
     }
@@ -16,7 +18,7 @@ const AllSeller = () => {
         queryKey: ['sellers'],
         queryFn: async () => {
             try {
-                const res = await fetch('http://localhost:5000/sellers', {
+                const res = await fetch('https://resell-one.vercel.app/sellers', {
                     headers: {
                         authorization: `bearer ${localStorage.getItem('geniusToken')}`
                     }
@@ -31,7 +33,7 @@ const AllSeller = () => {
     })
 
     const handleVerified = id => {
-        fetch(`http://localhost:5000/sellers/${id}`, {
+        fetch(`https://resell-one.vercel.app/sellers/${id}`, {
             method: 'PUT',
             headers: {
                 authorization: `bearer ${localStorage.getItem('geniusToken')}`
@@ -49,7 +51,7 @@ const AllSeller = () => {
     }
 
     const handleDeleteUser = id => {
-        fetch(`http://localhost:5000/sellers/${id}`, {
+        fetch(`https://resell-one.vercel.app/sellers/${id}`, {
             method: "DELETE",
             headers: {
                 authorization: `bearer ${localStorage.getItem('geniusToken')}`

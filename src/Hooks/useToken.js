@@ -4,10 +4,10 @@ const useToken = email => {
     const [token, setToken] = useState('')
     useEffect(() => {
         if (email) {
-            fetch(`http://localhost:5000/jwt?email=${email}`)
+            fetch(`https://resell-one.vercel.app/jwt?email=${email}`)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
+                    // console.log(data);
                     if (data.geniusToken) {
                         localStorage.setItem('geniusToken', data.geniusToken)
                         setToken(data.geniusToken)

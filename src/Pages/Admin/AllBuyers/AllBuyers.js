@@ -2,12 +2,13 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import ConfirmationModel from '../../../Components/ConfirmationModel';
+import useTitle from '../../../Hooks/useTitle';
 
 const AllBuyers = () => {
     const [info, setInfo] = useState(null)
     const [userDeleteAction, setUserDeleteAction] = useState(false)
-    
 
+    useTitle('All Buyers')
 
     const closeModal = () => {
         setInfo(null)
@@ -17,7 +18,7 @@ const AllBuyers = () => {
         queryKey: ['buyers'],
         queryFn: async () => {
             try {
-                const res = await fetch('http://localhost:5000/buyers', {
+                const res = await fetch('https://resell-one.vercel.app/buyers', {
                     headers: {
                         authorization: `bearer ${localStorage.getItem('geniusToken')}`
                     }
@@ -32,7 +33,7 @@ const AllBuyers = () => {
     })
 
     const handleDeleteUser = id => {
-        fetch(`http://localhost:5000/buyers/${id}`, {
+        fetch(`https://resell-one.vercel.app/buyers/${id}`, {
             method: "DELETE",
             headers: {
                 authorization: `bearer ${localStorage.getItem('geniusToken')}`
@@ -40,7 +41,7 @@ const AllBuyers = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 refetch()
                 setInfo(null)
                 toast.success('Successfully deleted seller')
@@ -88,7 +89,7 @@ const AllBuyers = () => {
                                     {buyer.email}
                                 </td>
                                 <th>
-                                <label htmlFor="action-modal" onClick={() => userDelete(buyer)} className="btn btn-accent btn-xs">Delete</label>
+                                    <label htmlFor="action-modal" onClick={() => userDelete(buyer)} className="btn btn-accent btn-xs">Delete</label>
                                 </th>
                             </tr>)
                         }

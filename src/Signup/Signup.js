@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../AuthCoxtext/AuthProvider';
+import useTitle from '../Hooks/useTitle';
 import useToken from '../Hooks/useToken';
 
 const Signup = () => {
@@ -11,7 +12,7 @@ const Signup = () => {
     const googleProvider = new GoogleAuthProvider()
     const { register, formState: { errors }, handleSubmit } = useForm();
     const navigate = useNavigate()
-
+    useTitle('Sign Up')
     const imageHostKey = process.env.REACT_APP_imgbb_Key;
 
     const [loginEmail, setLoginEmail] = useState('')
@@ -80,7 +81,7 @@ const Signup = () => {
                 setLoginEmail(result.user.email);
                 toast.success('Successfully Sign Up')
                 const { email, displayName, photoURL } = result.user
-                console.log(result);
+                // console.log(result);
                 const role = ""
                 userSaveInDb(email, displayName, photoURL, role)
 
@@ -97,7 +98,7 @@ const Signup = () => {
 
     const userSaveInDb = (email, name, photoURL, role) => {
         const user = { email, name, photoURL, role }
-        fetch('http://localhost:5000/users', {
+        fetch('https://resell-one.vercel.app/users', {
             method: "POST",
             headers: {
                 'content-type': 'application/json'
@@ -106,7 +107,7 @@ const Signup = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
             })
     }
 

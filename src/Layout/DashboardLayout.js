@@ -18,22 +18,20 @@ const DashboardLayout = () => {
     const { user } = useContext(AuthContext)
     const [isAdmin, isAdminLoading] = useAdmin(user?.email)
     const [isSellerOrAdmin, isSellerOrAdminLoading] = useSeller(user?.email)
+
     if (isSellerOrAdminLoading || isAdminLoading) {
         return <Loading></Loading>
     }
-    return (
-        <div className=''>
 
+    return (
+        <div >
             <Header></Header>
             <div className="drawer drawer-mobile">
                 <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
                 <div className="drawer-content relative ">
-
                     <div className=" ">
-
-                        <Outlet></Outlet>
+                         <Outlet></Outlet>
                     </div>
-
                 </div>
                 <div className="drawer-side ">
                     <label htmlFor="my-drawer-2" className="drawer-overlay "></label>
@@ -67,7 +65,7 @@ const DashboardLayout = () => {
                                         <span>My Order</span>
                                     </Link>
                                 </li>
-                                {/* <li><Link>My wish</Link></li> */}
+                               
                             </>}
 
                         {
@@ -79,20 +77,12 @@ const DashboardLayout = () => {
                                     <span>My Products</span> </Link></li>
                                 <li><Link to='/dashboard/mysell' className="flex items-center p-2 space-x-3 rounded-md"><MdSell />
                                     <span>My Sell</span></Link></li>
-                                {/* <li><Link>My buyers</Link></li> */}
+                                
                             </>
                         }
                         {
                             user?.uid && isAdmin &&
                             <>
-
-                                {/* <li>
-                                    <Link className="flex items-center p-2 space-x-3 rounded-md">
-                                        <RiShoppingCart2Line />
-                                        <span>My Order</span>
-                                    </Link>
-                                </li> */}
-
                                 <li><Link to='/dashboard/allsell' className="flex items-center p-2 space-x-3 rounded-md"><AiOutlineShoppingCart />
                                     <span>All Sell</span></Link></li>
                                 <li><Link to='/dashboard/alluser' className="flex items-center p-2 space-x-3 rounded-md"><HiOutlineUserGroup />

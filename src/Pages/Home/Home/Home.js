@@ -8,11 +8,11 @@ import HomeTopBanner from '../HomeTopBanner/HomeTopBanner';
 import Review from '../Review/Review';
 
 const Home = () => {
-    const { data:products,isLoading,refetch } = useQuery({
+    const { data: products, isLoading, refetch } = useQuery({
         queryKey: ['products'],
         queryFn: async () => {
             try {
-                const res = await fetch('http://localhost:5000/advertisement')
+                const res = await fetch('https://resell-one.vercel.app/advertisement')
                 const data = await res.json()
                 return data
             }
@@ -21,19 +21,22 @@ const Home = () => {
             }
         }
     })
-    if(isLoading){
+console.log(products);
+
+
+    if (isLoading) {
         return <Loading></Loading>
     }
-    
+
     return (
         <div>
             <HomeTopBanner></HomeTopBanner>
             {
-                products.length&&
-            <HomeAdvertised
-            products={products}
-            refetch={refetch}
-            ></HomeAdvertised>
+                products.length &&
+                <HomeAdvertised
+                    products={products}
+                    refetch={refetch}
+                ></HomeAdvertised>
             }
             <HomeProductCategories></HomeProductCategories>
             <HomeDownloadApp></HomeDownloadApp>
