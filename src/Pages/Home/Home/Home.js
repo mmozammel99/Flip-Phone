@@ -32,7 +32,8 @@ const Home = () => {
                 products.length&&
             <HomeAdvertised
             products={products}
-            refetch={refetch}></HomeAdvertised>
+            refetch={refetch}
+            ></HomeAdvertised>
             }
             <HomeProductCategories></HomeProductCategories>
             <HomeDownloadApp></HomeDownloadApp>

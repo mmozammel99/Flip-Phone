@@ -98,6 +98,7 @@ const AllProducts = () => {
                     {
                         products.map((p) => <Card key={p._id}
                             product={p}
+                            refetch={refetch}
                             setProductInfo={setProductInfo}
                             setDeleteAction={setDeleteAction}
                             setAdvertiseAction={setAdvertiseAction}

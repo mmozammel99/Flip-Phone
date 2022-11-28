@@ -70,7 +70,8 @@ const AddProduct = () => {
                         sellerEmail: user.email,
                         sellerImg: user.photoURL,
                         sellerPhone: data.phone,
-                        postTime
+                        postTime,
+                        productStatus:'Available'
 
                     }
                     productSaveInDb(productInfo)

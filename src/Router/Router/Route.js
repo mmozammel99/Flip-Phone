@@ -13,7 +13,9 @@ import DisplayError from "../../Pages/Shared/Error/DisplayError";
 import Categories from "../../Pages/Categories.js/Categories";
 import ReportedItems from "../../Pages/Admin/ReportedItems/ReportedItems";
 import AllProducts from "../../Pages/AllProducts/AllProduct";
+import MyOrder from "../../Pages/MyOrder/MyOrder";
 import AllUser from "../../Pages/Admin/AllUsers/AlUsers";
+import Payment from "../../Pages/MyOrder/Payment";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main");
@@ -42,10 +44,6 @@ const router = createBrowserRouter([
                 element: <Categories></Categories>,
                 loader: ({ params }) => fetch(`http://localhost:5000/categories/${params.id}`)
             },
-            {
-                path: '/allseller',
-                element: <AdminRoute><AllSeller></AllSeller></AdminRoute>
-            },
 
         ]
     },
@@ -58,6 +56,15 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard',
                 element: <AllProducts></AllProducts>
+            },
+            {
+                path: '/dashboard/myorder',
+                element: <MyOrder></MyOrder>
+            },
+            {
+                path: '/dashboard/payment/:id',
+                element: <Payment></Payment>,
+                loader: ({ params }) => fetch(`http://localhost:5000/makepayment/${params.id}`)
             },
 
             // admin

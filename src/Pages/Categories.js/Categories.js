@@ -98,6 +98,7 @@ const Categories = () => {
                             products.map((p) => <Card
                                 key={p._id}
                                 product={p}
+                                setLoading={setLoading}
                                 setProductInfo={setProductInfo}
                                 setDeleteAction={setDeleteAction}
                                 setAdvertiseAction={setAdvertiseAction}
@@ -110,12 +111,12 @@ const Categories = () => {
                 </div>
                 <div className="drawer-side">
                     <label htmlFor="category-drawer" className="drawer-overlay"></label>
-                    <div className=" p-4 w-80 bg-gray-100 text-base-content">
+                    <div className=" p-4 w-80 bg-gray-100 lg:bg-transparent text-base-content">
                     <label htmlFor="category-drawer" className=" drawer-button lg:hidden text-left text-primary pl-7 m-0  rounded-xl bg-gray-100 absolute top-[40%]   -right-16 "><TbLayoutSidebarRightCollapse className='text-6xl rounded-xl rounded-l-none shadow-l shadow-xl' /></label>
                         <div className='grid gap-5  grid-cols-1 text-center'>
                             {
                                 categories.map(category =>
-                                    <Link to={`/categories/${category._id}`} className={`card   text-primary-content ${category.bg}`} >
+                                    <Link key={category._id}  to={`/categories/${category._id}`} className={`card   text-primary-content ${category.bg}`} >
                                         <div className="card-body  text-canter text-secondary-content">
                                             <h2 className=" text-xl mx-auto my-2">
                                                 <img src={category.icon} alt="" />

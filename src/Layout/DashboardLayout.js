@@ -5,7 +5,7 @@ import { RiDashboard3Line, RiShoppingCart2Line, RiAddCircleLine } from "react-ic
 import { BsShop } from "react-icons/bs";
 import { FiShoppingBag } from "react-icons/fi";
 import { GrUserManager } from "react-icons/gr";
-import { HiOutlineUserGroup ,HiOutlineUsers} from "react-icons/hi";
+import { HiOutlineUserGroup, HiOutlineUsers } from "react-icons/hi";
 import { MdOutlineReport } from "react-icons/md";
 import useAdmin from '../Hooks/useAdmin';
 import useSeller from '../Hooks/useSeller';
@@ -36,7 +36,7 @@ const DashboardLayout = () => {
                 </div>
                 <div className="drawer-side ">
                     <label htmlFor="my-drawer-2" className="drawer-overlay "></label>
-                    <ul className=" p-4 w-80 bg-gray-100 text-gray-900 text-lg font-semibold ">
+                    <ul className=" p-4 w-80 lg:bg-transparent bg-gray-100 text-gray-900 text-lg font-semibold ">
                         <li>
                             <label htmlFor="my-drawer-2" className=" drawer-button lg:hidden text-left text-primary pl-7 m-0  rounded-xl bg-gray-100 absolute top-[40%]   -right-16 "><TbLayoutSidebarRightCollapse className='text-6xl rounded-xl rounded-l-none shadow-l shadow-xl' /></label>
                         </li>
@@ -61,7 +61,7 @@ const DashboardLayout = () => {
                             user?.uid && !isSellerOrAdmin &&
                             <>
                                 <li>
-                                    <Link className="flex items-center p-2 space-x-3 rounded-md">
+                                    <Link to='/dashboard/myorder' className="flex items-center p-2 space-x-3 rounded-md">
                                         <RiShoppingCart2Line />
                                         <span>My Order</span>
                                     </Link>

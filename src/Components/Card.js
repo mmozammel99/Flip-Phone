@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import moment from 'moment';
 import { MdReport } from "react-icons/md";
 import { AuthContext } from '../AuthCoxtext/AuthProvider';
@@ -9,12 +9,15 @@ import CardLoader from './CardLoader';
 import useVerify from '../Hooks/useVerify';
 import { GoVerified } from "react-icons/go";
 import BookNowModal from './BookNowModal';
+import toast from 'react-hot-toast';
 
 
-const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, setReportAction }) => {
+const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, setReportAction, refetch ,setLoading}) => {
     const { user } = useContext(AuthContext)
     const [isAdmin, isAdminLoading] = useAdmin(user?.email)
     const [isSellerOrAdmin, isSellerOrAdminLoading] = useSeller(user?.email)
+    const [bookingInfo, setBookingInfo] = useState(null)
+    const [CardBookingLoader, setCardBookingLoader] = useState(false)
 
     const {
         productName,
@@ -70,23 +73,65 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
         setReportAction(true)
 
     }
-    // const handleOpenBookingModal = () => {
-    //     const info = {
-    //         _id,
-    //         name: productName
-    //     }
-    //     setProductInfo(info)
-    //     setDeleteAction(false)
-    //     setAdvertiseAction(false)
-    //     setReportAction(true)
+    const handleOpenBookingModal = () => {
 
-    // }
-const bookingModalInfo={
+        const info = {
+            buyerEmail: user?.email,
+            buyerName: user?.displayName,
+            productName,
+            price: sellingPrice,
 
-}
+        }
+        setBookingInfo(info)
+    }
+    const handleAddBooking = event => {
+        // setLoading(true)
+        setCardBookingLoader(true)
+        event.preventDefault()
+        const buyerNumber = event.target.buyerNumber.value
+        const meetingLocation = event.target.meetingLocation.value
+        const buyerInfo = {
+            buyerEmail: user?.email,
+            buyerName: user?.displayName,
+            buyerNumber,
+            meetingLocation,
+            productName,
+            price: sellingPrice,
+            bookingId:_id,
+            productImg,
+            email:user?.email,
+            sellerEmail,
+            description
+        }
+        fetch(`http://localhost:5000/booking`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `bearer ${localStorage.getItem('geniusToken')}`
+            },
+            body: JSON.stringify(buyerInfo)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.modifiedCount > 0) {
+                    setBookingInfo(null)
+                    setLoading(false)
+                    refetch()
+                    setCardBookingLoader(false)
+                    toast.success('Product is Booked')
+                }
+            })
+
+
+        console.log(buyerNumber, meetingLocation);
+        setBookingInfo(null)
+    }
+    const handleModalClose = () => {
+        setBookingInfo(null)
+    }
 
     const time = moment(postTime).format('LL')
-    if (isSellerOrAdminLoading || isAdminLoading || isVerifyLoading) {
+    if (isSellerOrAdminLoading || isAdminLoading || isVerifyLoading ||CardBookingLoader) {
         return <CardLoader></CardLoader>
     }
     return (
@@ -148,7 +193,7 @@ const bookingModalInfo={
                             <Link to='/login' className="btn btn-primary text-white">Book now</Link>
                         }
                         {user?.uid && !isSellerOrAdmin &&
-                            <label htmlFor="Booking-modal" className="btn btn-primary text-white">Book now</label>
+                            <label onClick={() => handleOpenBookingModal()} htmlFor="Booking-modal" className="btn btn-primary text-white">Book now</label>
                         }
 
                         {user?.email === sellerEmail && isSellerOrAdmin && !advertisement &&
@@ -169,8 +214,13 @@ const bookingModalInfo={
                     </div>
                 </div>
             </div>
-            <BookNowModal
-            ></BookNowModal>
+            {bookingInfo &&
+                <BookNowModal
+                    bookingModalInfo={bookingInfo}
+                    handleAddBooking={handleAddBooking}
+                    handleModalClose={handleModalClose}
+                ></BookNowModal>
+            }
         </>
     );
 };

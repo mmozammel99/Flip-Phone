@@ -1,22 +1,25 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
-import ConfirmationModel from '../../../Components/ConfirmationModel';
-import Loading from '../../Shared/Loading/Loading';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../../AuthCoxtext/AuthProvider';
+import ConfirmationModel from '../../Components/ConfirmationModel';
+import Loading from '../Shared/Loading/Loading';
+
 
 const AllSeller = () => {
+    const { user } = useContext(AuthContext)
     const [info, setInfo] = useState(null)
     const [userDeleteAction, setUserDeleteAction] = useState(false)
-    const [sellerVerifyAction, setSellerVerifyAction] = useState(false)
     const closeModal = () => {
         setInfo(null)
     }
 
-    const { data: sellers, isLoading, refetch } = useQuery({
-        queryKey: ['sellers'],
+    const { data: booking, isLoading, refetch } = useQuery({
+        queryKey: ['booking', user?.email],
         queryFn: async () => {
             try {
-                const res = await fetch('http://localhost:5000/sellers', {
+                const res = await fetch(`http://localhost:5000/booking/myproduct?email=${user?.email}`, {
                     headers: {
                         authorization: `bearer ${localStorage.getItem('geniusToken')}`
                     }
@@ -31,7 +34,7 @@ const AllSeller = () => {
     })
 
     const handleVerified = id => {
-        fetch(`http://localhost:5000/sellers/${id}`, {
+        fetch(`http://localhost:5000/booking/${id}`, {
             method: 'PUT',
             headers: {
                 authorization: `bearer ${localStorage.getItem('geniusToken')}`
@@ -49,7 +52,7 @@ const AllSeller = () => {
     }
 
     const handleDeleteUser = id => {
-        fetch(`http://localhost:5000/sellers/${id}`, {
+        fetch(`http://localhost:5000/booking/${id}`, {
             method: "DELETE",
             headers: {
                 authorization: `bearer ${localStorage.getItem('geniusToken')}`
@@ -57,22 +60,16 @@ const AllSeller = () => {
         })
             .then(res => res.json())
             .then(data => {
-                // console.log(data);
                 refetch()
                 setInfo(null)
                 toast.success('Successfully deleted seller')
             })
     }
-    const sellerVerify = (seller) => {
-        setInfo(seller);
-        setUserDeleteAction(false)
-        setSellerVerifyAction(true)
-    }
-    const userDelete = (seller) => {
-        setInfo(seller);
-        setSellerVerifyAction(false)
+    const userDelete = (book) => {
+        setInfo(book);
         setUserDeleteAction(true)
     }
+ 
 
     if (isLoading) {
         return <Loading></Loading>
@@ -88,42 +85,41 @@ const AllSeller = () => {
                             <th>
                             </th>
                             <th>Name</th>
-                            <th>Email</th>
-                            <th>Add verified</th>
+                            <th>Price</th>
+                            <th>Make Payment</th>
                             <th>Delete</th>
-                           
                         </tr>
                     </thead>
                     <tbody>
 
                         {
-                            sellers.map((seller, i) => <tr key={i}>
+                            booking.map((book, i) => <tr key={i}>
                                 <th>{i + 1}</th>
                                 <td>
                                     <div className="flex items-center space-x-3">
                                         <div className="avatar">
                                             <div className="mask mask-squircle w-12 h-12">
-                                                <img src={seller.photoURL} alt="Avatar Tailwind CSS Component" />
+                                                <img src={book.productImg} alt="Avatar Tailwind CSS Component" />
                                             </div>
                                         </div>
                                         <div>
-                                            <div className="font-bold">{seller.name}</div>
+                                            <div className="font-bold">{book.productName}</div>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    {seller.email}
+                                    $ {book.price}
                                 </td>
 
                                 <th>
-                                    {seller?.verified ?
-                                        <button className="btn btn-primary btn-xs" >verified</button>
+                                    {book?.paid ?
+                                        <button className="btn btn-primary btn-xs" >Paid</button>
                                         :
-                                        <label htmlFor="action-modal" onClick={() => sellerVerify(seller)} className="btn btn-secondary btn-xs">Add verified</label>
+                                        <Link to={`/dashboard/payment/${book._id}`}className="btn btn-secondary btn-xs">Make Payment</Link>
                                     }
                                 </th>
                                 <th>
-                                    <label htmlFor="action-modal" onClick={() => userDelete(seller)} className="btn btn-accent btn-xs">Delete</label>
+                                    <label htmlFor="action-modal" onClick={() => userDelete(book)} className="btn btn-accent btn-xs">Delete</label>
                                 </th>
                             </tr>)
                         }
@@ -136,9 +132,6 @@ const AllSeller = () => {
                 <ConfirmationModel
                     closeModal={closeModal}
                     info={info}
-
-                    sellerVerifyAction={sellerVerifyAction}
-                    handleVerified={handleVerified}
 
                     userDeleteAction={userDeleteAction}
                     handleDeleteUser={handleDeleteUser}
