@@ -13,7 +13,7 @@ import toast from 'react-hot-toast';
 
 
 const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, setReportAction, setLoading }) => {
-    const { user ,loading} = useContext(AuthContext)
+    const { user,loading } = useContext(AuthContext)
     const [isAdmin, isAdminLoading] = useAdmin(user?.email)
     const [isSellerOrAdmin, isSellerOrAdminLoading] = useSeller(user?.email)
     const [bookingInfo, setBookingInfo] = useState(null)
@@ -130,10 +130,9 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
 
     const time = moment(postTime).format('LL')
 
-        
-    if (isSellerOrAdminLoading || isAdminLoading || isVerifyLoading || loading) {
-        return <CardLoader></CardLoader>
-    }
+    // if (isSellerOrAdminLoading || isAdminLoading || isVerifyLoading) {
+    //     return <CardLoader></CardLoader>
+    // }
     return (
         <>
             <div className="card bg-base-100 shadow-lg border relative overflow-hidden">

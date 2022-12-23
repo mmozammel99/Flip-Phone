@@ -1,11 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import Loading from '../../Shared/Loading/Loading';
+import Contact from '../Contact/Contact';
 import HomeAdvertised from '../HomeAdvertised/HomeAdvertised';
 import HomeDownloadApp from '../HomeDownloadApp/HomeDownloadApp';
 import HomeProductCategories from '../HomeProductCategories/HomeProductCategories';
 import HomeTopBanner from '../HomeTopBanner/HomeTopBanner';
 import Review from '../Review/Review';
+import Stats from '../Stats/Stats';
 
 const Home = () => {
     const { data: products, isLoading, refetch } = useQuery({
@@ -39,8 +41,10 @@ console.log(products);
                 ></HomeAdvertised>
             }
             <HomeProductCategories></HomeProductCategories>
-            <HomeDownloadApp></HomeDownloadApp>
+            <Stats/>
             <Review></Review>
+            <HomeDownloadApp></HomeDownloadApp>
+            <Contact></Contact>
 
         </div>
     );
