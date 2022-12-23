@@ -17,7 +17,12 @@ const Header = () => {
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/blog'>Blog</Link></li>
 
-        {user?.uid &&
+        {
+            !user?.uid &&
+            <li><Link to='/all-products'>All Products</Link></li>
+        }
+        {
+        user?.uid &&
             <>
                 <li><Link to='/dashboard'>Dashboard</Link></li>
             </>
@@ -46,7 +51,7 @@ const Header = () => {
                     {
                         user?.uid ?
                             <>
-                           
+
                                 <div className="dropdown dropdown-end ">
                                     <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                                         <div className="w-10 rounded-full ">
@@ -58,12 +63,12 @@ const Header = () => {
                                         <li><button onClick={handleLogOut} className='btn btn-ghost'>Logout</button></li>
                                     </ul>
                                 </div>
-                               
+
                             </>
                             :
                             <Link className="btn btn-primary text-gray-50" to='/login'>Login</Link>
                     }
-                    
+
                 </div>
             </div>
         </div>

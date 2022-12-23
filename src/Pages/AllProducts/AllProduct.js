@@ -21,15 +21,11 @@ const AllProducts = () => {
         setProductInfo(null)
     }
 
-    const { data: products, isLoading, refetch } = useQuery({
+    const { data: products = [], isLoading, refetch } = useQuery({
         queryKey: ['products'],
         queryFn: async () => {
             try {
-                const res = await fetch('https://resell-one.vercel.app/allproducts', {
-                    headers: {
-                        authorization: `bearer ${localStorage.getItem('geniusToken')}`
-                    }
-                })
+                const res = await fetch('https://resell-one.vercel.app/allproducts')
                 const data = await res.json()
                 return data
             }
@@ -100,7 +96,7 @@ const AllProducts = () => {
                 <div className="grid grid-cols-1  lg:grid-cols-2 gap-10  my-10 mx-3 md:mx-10 ">
 
                     {
-                        products.map((p) => <Card key={p._id}
+                        products?.map((p) => <Card key={p._id}
                             product={p}
                             refetch={refetch}
                             setProductInfo={setProductInfo}

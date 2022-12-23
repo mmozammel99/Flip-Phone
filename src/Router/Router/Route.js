@@ -52,6 +52,10 @@ const router = createBrowserRouter([
                 element: <Categories></Categories>,
                 loader: ({ params }) => fetch(`https://resell-one.vercel.app/categories/${params.id}`)
             },
+            {
+                path: '/all-products',
+                element: <AllProducts></AllProducts>
+            },
 
         ]
     },

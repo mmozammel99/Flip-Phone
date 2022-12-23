@@ -25,6 +25,7 @@ const AuthProvider = ({ children }) => {
     }
     const logOut = () => {
         setLoading(true)
+        localStorage.setItem('geniusToken', '')
         return signOut(auth)
     }
     useEffect(() => {

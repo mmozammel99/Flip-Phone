@@ -17,7 +17,7 @@ const ReportedItems = () => {
     }
 
     const url = `https://resell-one.vercel.app/report`
-    const { data: products, isLoading, refetch } = useQuery({
+    const { data: products =[], isLoading, refetch } = useQuery({
         queryKey: ['products',],
         queryFn: async () => {
             try {
@@ -57,9 +57,8 @@ const ReportedItems = () => {
     return (
         <>
             <div className='overflow-y-hidden'>
-                <h3 className='text-4xl text-center mt-10 font-bold'>My Product</h3>
+                <h3 className='text-4xl text-center mt-10 font-bold'>Report Product</h3>
                 <div className="grid grid-cols-1  lg:grid-cols-2 gap-10  my-10 mx-3 md:mx-10 ">
-
                     {
                         products.map((p) => <Card
                             key={p._id}
@@ -75,7 +74,6 @@ const ReportedItems = () => {
                 <ConfirmationModel
                     closeModal={closeModal}
                     info={productInfo}
-
                     deleteAction={deleteAction}
                     handleDelete={handleDelete}
                 ></ConfirmationModel>

@@ -5,11 +5,16 @@ import Loading from '../../Shared/Loading/Loading';
 
 const AllSelling = () => {
 
-    const { data: product = [], isLoading } = useQuery({
+    const { data: product, isLoading } = useQuery({
         queryKey: ['products'],
         queryFn: async () => {
             try {
-                const res = await fetch('https://resell-one.vercel.app/allselling')
+                const res = await fetch('https://resell-one.vercel.app/allselling',
+                 {
+                    headers: {
+                        authorization: `bearer ${localStorage.getItem('geniusToken')}`
+                    }
+                })
                 const data = await res.json()
                 return data
             }
@@ -18,7 +23,7 @@ const AllSelling = () => {
             }
         }
     })
-
+console.log(product);
     useTitle('All Sell')
 
     if (isLoading) {

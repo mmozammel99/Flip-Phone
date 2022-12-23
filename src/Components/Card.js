@@ -12,8 +12,8 @@ import BookNowModal from './BookNowModal';
 import toast from 'react-hot-toast';
 
 
-const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, setReportAction, refetch, setLoading }) => {
-    const { user } = useContext(AuthContext)
+const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, setReportAction, setLoading }) => {
+    const { user ,loading} = useContext(AuthContext)
     const [isAdmin, isAdminLoading] = useAdmin(user?.email)
     const [isSellerOrAdmin, isSellerOrAdminLoading] = useSeller(user?.email)
     const [bookingInfo, setBookingInfo] = useState(null)
@@ -129,7 +129,9 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
     }
 
     const time = moment(postTime).format('LL')
-    if (isSellerOrAdminLoading || isAdminLoading || isVerifyLoading) {
+
+        
+    if (isSellerOrAdminLoading || isAdminLoading || isVerifyLoading || loading) {
         return <CardLoader></CardLoader>
     }
     return (
@@ -170,7 +172,7 @@ const Card = ({ product, setProductInfo, setDeleteAction, setAdvertiseAction, se
                     <div className='flex gap-1 md:gap-2 justify-between items-center'>
                         <p className='text-xs font-semibold text-gray-400 '>{time}</p>
 
-                        {user?.email !== sellerEmail && !isAdmin &&
+                        {user?.email !== sellerEmail && !isAdmin && user?.email&&
                             <label htmlFor="action-modal" onClick={() => handleOpenReportModal()} className="tooltip tooltip-accent" data-tip="Report">
                                 <MdReport className='text-error text-2xl' />
                             </label>
