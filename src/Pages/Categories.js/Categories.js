@@ -1,15 +1,18 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { TbLayoutSidebarRightCollapse } from 'react-icons/tb';
 import { Link, useLoaderData } from 'react-router-dom';
+import { AuthContext } from '../../AuthCoxtext/AuthProvider';
 import Card from '../../Components/Card';
 import ConfirmationModel from '../../Components/ConfirmationModel';
+import NormalCard from '../../Components/NormalCard';
 import useTitle from '../../Hooks/useTitle';
 import Loading from '../Shared/Loading/Loading';
 
 const Categories = () => {
     const products = useLoaderData()
+    const { user } = useContext(AuthContext);
     const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(false)
     const [productInfo, setProductInfo] = useState(null)
@@ -94,19 +97,34 @@ const Categories = () => {
 
                     <h3 className='text-3xl md:text-5xl text-center mt-10 font-bold'>Category Name </h3>
                     <div className='grid grid-cols-1 md:grid-cols-2 text-center gap-10  my-10 mx-3 md:mx-10 '>
-
                         {
-                            products.map((p) => <Card
-                                key={p._id}
-                                product={p}
-                                setLoading={setLoading}
-                                setProductInfo={setProductInfo}
-                                setDeleteAction={setDeleteAction}
-                                setAdvertiseAction={setAdvertiseAction}
-                                setReportAction={setReportAction}
-                            >
+                            user?.email?
+                            <>
+                                {
+                                    products.map((p) => <Card
+                                        key={p._id}
+                                        product={p}
+                                        setLoading={setLoading}
+                                        setProductInfo={setProductInfo}
+                                        setDeleteAction={setDeleteAction}
+                                        setAdvertiseAction={setAdvertiseAction}
+                                        setReportAction={setReportAction}
+                                    >
 
-                            </Card>)
+                                    </Card>)
+                                }
+                            </>
+                        :
+                        <>
+                            {
+                                products.map((p) => <NormalCard
+                                    key={p._id}
+                                    product={p}
+                                >
+
+                                </NormalCard>)
+                            }
+                        </>
                         }
                     </div>
                 </div>
