@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
+import { AuthContext } from '../../../AuthCoxtext/AuthProvider';
 import Card from '../../../Components/Card';
 import ConfirmationModel from '../../../Components/ConfirmationModel';
+import NormalCard from '../../../Components/NormalCard';
 
 const HomeAdvertised = ({ products, refetch }) => {
-
+    const { user } = useContext(AuthContext);
     const [productInfo, setProductInfo] = useState(null)
     const [deleteAction, setDeleteAction] = useState(false)
     const [reportAction, setReportAction] = useState(false)
@@ -49,15 +51,29 @@ const HomeAdvertised = ({ products, refetch }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10  my-10 mx-3 ">
 
                 {
-                    products.map((p) => <Card key={p._id}
-                        product={p}
-                        refetch={refetch}
-                        setProductInfo={setProductInfo}
-                        setDeleteAction={setDeleteAction}
-                        setReportAction={setReportAction}
-                    >
+                    user?.email ?
+                        <>  {
+                            products.map((p) => <Card key={p._id}
+                                product={p}
+                                refetch={refetch}
+                                setProductInfo={setProductInfo}
+                                setDeleteAction={setDeleteAction}
+                                setReportAction={setReportAction}
+                            >
 
-                    </Card>)
+                            </Card>)
+                        }
+                        </>
+                        :
+                        <>
+                            {
+                                products.map((p) => <NormalCard key={p._id}
+                                    product={p}
+                                >
+
+                                </NormalCard>)
+                            }
+                        </>
                 }
             </div>
             {productInfo &&

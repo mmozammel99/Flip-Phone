@@ -4,11 +4,12 @@ import toast from 'react-hot-toast';
 import { AuthContext } from '../../AuthCoxtext/AuthProvider';
 import Card from '../../Components/Card';
 import ConfirmationModel from '../../Components/ConfirmationModel';
+import NormalCard from '../../Components/NormalCard';
 import useTitle from '../../Hooks/useTitle';
 import Loading from '../Shared/Loading/Loading';
 
 const AllProducts = () => {
-    const { loading } = useContext(AuthContext);
+    const { loading, user } = useContext(AuthContext);
 
     const [productInfo, setProductInfo] = useState(null)
     const [deleteAction, setDeleteAction] = useState(false)
@@ -95,7 +96,8 @@ const AllProducts = () => {
                 <h3 className='text-4xl text-center mt-10 font-bold'>All Product</h3>
                 <div className="grid grid-cols-1  lg:grid-cols-2 gap-10  my-10 mx-3 md:mx-10 ">
 
-                    {
+                 { user?.email?
+                 <>  {
                         products.map((p) => <Card key={p._id}
                             product={p}
                             refetch={refetch}
@@ -105,6 +107,18 @@ const AllProducts = () => {
                             setReportAction={setReportAction}>
 
                         </Card>)
+                    }
+                    </>
+                    :
+                    <>
+                    {
+                        products.map((p) => <NormalCard key={p._id}
+                            product={p}
+                           >
+
+                        </NormalCard>)
+                    }
+                    </>
                     }
                 </div>
             </div>
