@@ -29,11 +29,11 @@ const DashboardLayout = () => {
             <div className="drawer drawer-mobile">
                 <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
                 <div className="drawer-content relative ">
-                    <div className=" ">
+                    <div className="pt-10 ">
                          <Outlet></Outlet>
                     </div>
                 </div>
-                <div className="drawer-side ">
+                <div className="drawer-side pt-12">
                     <label htmlFor="my-drawer-2" className="drawer-overlay "></label>
                     <ul className=" p-4 w-80 lg:bg-transparent bg-gray-100 text-gray-900 text-lg font-semibold ">
                         <li>

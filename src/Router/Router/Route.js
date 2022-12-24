@@ -20,6 +20,7 @@ import PaymentComplete from "../../Pages/MyOrder/PaymentComplete";
 import AllSelling from "../../Pages/Admin/AllSelling/AllSelling";
 import MySelling from "../../Pages/Sellers/MySelling/MySelling";
 import Blog from "../../Pages/Blog/Blog";
+import CategoriesLayout from "../../Layout/CategoriesLayout";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main");
@@ -47,16 +48,24 @@ const router = createBrowserRouter([
                 path: '/blog',
                 element: <Blog></Blog>
             },
-            {
-                path: '/categories/:id',
-                element: <Categories></Categories>,
-                loader: ({ params }) => fetch(`https://resell-one.vercel.app/categories/${params.id}`)
-            },
+
             {
                 path: '/all-products',
                 element: <AllProducts></AllProducts>
             },
 
+        ]
+    },
+    {
+        path: '/categories',
+        element: <CategoriesLayout />,
+        errorElement: <DisplayError></DisplayError>,
+        children: [
+            {
+                path: '/categories/:id',
+                element: <Categories></Categories>,
+                loader: ({ params }) => fetch(`https://resell-one.vercel.app/categories/${params.id}`)
+            },
         ]
     },
     {

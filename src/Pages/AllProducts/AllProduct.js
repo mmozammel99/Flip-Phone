@@ -92,7 +92,7 @@ const AllProducts = () => {
 
     return (
         <>
-            <div className='overflow-y-hidden'>
+            <div className='overflow-y-hidden mt-10'>
                 <h3 className='text-4xl text-center mt-10 font-bold'>All Product</h3>
                 <div className="grid grid-cols-1  lg:grid-cols-2 gap-10  my-10 mx-3 md:mx-10 ">
 

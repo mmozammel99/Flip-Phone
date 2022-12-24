@@ -34,6 +34,8 @@ const Categories = () => {
             .catch(error => console.log(error));
     }, [])
 
+console.log(products);
+
     const handleReport = id => {
 
         fetch(`https://resell-one.vercel.app/report/${id}`, {
@@ -89,13 +91,11 @@ const Categories = () => {
     }
 
     return (
-        <div>
+        <div className=''>
             <div className="drawer drawer-mobile">
                 <input id="category-drawer" type="checkbox" className="drawer-toggle " />
-                <div className="drawer-content  ">
-
-
-                    <h3 className='text-3xl md:text-5xl text-center mt-10 font-bold'>Category Name </h3>
+                <div className="drawer-content pt-10 ">
+                    <h3 className='text-3xl md:text-5xl text-center mt-16 font-bold'>Category Name </h3>
                     <div className='grid grid-cols-1 md:grid-cols-2 text-center gap-10  my-10 mx-3 md:mx-10 '>
                         {
                             user?.email?
@@ -129,7 +129,7 @@ const Categories = () => {
                     </div>
                 </div>
 
-                <div className="drawer-side">
+                <div className="drawer-side pt-24 ">
                     <label htmlFor="category-drawer" className="drawer-overlay"></label>
                     <div className=" p-4 w-80 bg-gray-100 lg:bg-transparent text-base-content">
                         <label htmlFor="category-drawer" className=" drawer-button lg:hidden text-left text-primary pl-7 m-0  rounded-xl bg-gray-100 absolute top-[40%]   -right-16 "><TbLayoutSidebarRightCollapse className='text-6xl rounded-xl rounded-l-none shadow-l shadow-xl' /></label>
@@ -138,10 +138,8 @@ const Categories = () => {
                                 categories.map(category =>
                                     <Link key={category._id} to={`/categories/${category._id}`} className={`card   text-primary-content ${category.bg}`} >
                                         <div className="card-body  text-canter text-secondary-content">
-                                            <h2 className=" text-xl mx-auto my-2">
-                                                <img src={category.icon} alt="" />
-                                            </h2>
-                                            <h5 className='text-xl font-medium'>{category.name}</h5>
+                                           
+                                            <h5 className='text-md font-medium'>{category.name}</h5>
                                         </div>
                                     </Link >
                                 )}

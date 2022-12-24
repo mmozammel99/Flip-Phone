@@ -31,7 +31,7 @@ console.log(products);
     }
 
     return (
-        <div>
+        <div className='mt-10'>
             <HomeTopBanner></HomeTopBanner>
             {
                 products.length &&
